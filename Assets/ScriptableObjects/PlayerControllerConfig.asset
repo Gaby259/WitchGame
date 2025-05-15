@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: PlayerControllerConfig
   m_EditorClassIdentifier: 
   _movementSpeed: 6
-  _jumpHeight: 10
-  _gravity: 9.81
-  _camera: {fileID: 0}
-  _smoothTime: 0.1
+  _jumpHeight: 5
+  _gravity: 10
+  _accelerationRate: 10
+  _airAcelerationRate: 5
   _xCameraBounds: 80

@@ -3,21 +3,33 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
-    public PlayerControllerConfig controllerConfig;
-    private CharacterController _controller;
- 
-    private Vector3 _direction;
-    private float _directionY;
+    [Header("Movement")]
+    [SerializeField] private PlayerControllerConfig controllerConfig;
+    private CharacterController _characterController;
+    private Vector2 _moveInput;
+    private Vector3 _currentVelocity;
     
-    private Vector2 _currentMouseDelta;
-    private float _xRotation;
-    private Vector2 _currentMouseVelocity;
+    [SerializeField] private Camera camera;
+    [SerializeField] LayerMask groundLayer;
     
-    [SerializeField] private Camera _camera;
+    private InputController _inputController;
+    
     void Awake()
     {
-        _controller = GetComponent<CharacterController>();
+        _characterController = GetComponent<CharacterController>();
+        _inputController = GetComponent<InputController>();
     }
+
+    void OnEnable()
+    {
+        if (_inputController != null)
+        {
+            Debug.Log("Input controller enabled");
+            _inputController.MoveEvent += MovementInput;
+            _inputController.JumpEvent += Jump;
+        }
+    }
+
     void Start()
     {
         Cursor.visible = false;
@@ -26,17 +38,21 @@ public class PlayerController : MonoBehaviour
     
     void Update()
     {
-      Movement();
-      Rotation();
-      Jump();
+        Vector3 targetDirection = new Vector3(_moveInput.x, 0, _moveInput.y);
+        Vector3 targetVelocity = targetDirection * controllerConfig._movementSpeed;
+
+        float acceleration = IsGrounded() ? controllerConfig._accelerationRate : controllerConfig._airAcelerationRate;
+        _currentVelocity =  Vector3.MoveTowards(_currentVelocity, targetVelocity, acceleration * Time.deltaTime); //Time.deltaTime is for stopping
+        
+        _characterController.Move(_currentVelocity * Time.deltaTime);
+    
+      
     }
 
-    void Movement()
+    private void MovementInput (Vector2 movement)
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-        _direction = horizontal * transform.right + vertical * transform.forward;
-        
+       Debug.Log(movement);
+       _moveInput = movement; 
         
     }
 
@@ -45,25 +61,41 @@ public class PlayerController : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X");//left and right
         float mouseY = Input.GetAxis("Mouse Y");// up and down
       
-        Vector2 targetDelta = new Vector2(mouseX, mouseY);
+        /*Vector2 targetDelta = new Vector2(mouseX, mouseY);
         _currentMouseDelta = Vector2.SmoothDamp(_currentMouseDelta, targetDelta, ref _currentMouseVelocity, controllerConfig._xCameraBounds);
         _xRotation -= _currentMouseDelta.y;
         _xRotation = Mathf.Clamp(_xRotation,-controllerConfig._xCameraBounds, controllerConfig._xCameraBounds);
         transform.Rotate(Vector3.up, _currentMouseDelta.x);
-        _camera.transform.localRotation = Quaternion.Euler(_xRotation, 0, 0);
+        camera.transform.localRotation = Quaternion.Euler(_xRotation, 0, 0);*/
     }
 
     void Jump()
     {
-        if (Input.GetButtonDown ("Jump") && _controller.isGrounded)
+        
+        if (IsGrounded())
         {
-            _directionY = controllerConfig._jumpHeight; 
+            Debug.Log("Jump");
         }
+        /*
         //Apply Gravity 
         _directionY-= controllerConfig._gravity * Time.deltaTime;
         _direction.y = _directionY;
-        _controller.Move(_direction * controllerConfig._movementSpeed * Time.deltaTime);
+        _controller.Move(_direction * controllerConfig._movementSpeed * Time.deltaTime);*/
         
     }
+
+    private bool IsGrounded()
+    {
+        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down), Color.red, 10f);
+        if (Physics.SphereCast(transform.position, .5f, Vector3.down, out RaycastHit hit, .6f, groundLayer))
+        {
+            Debug.Log("Hit the ground");
+            return true;
+        }
+        Debug.Log("No Grounded");
+        return false;
+    }
+    
+    
     
 }
