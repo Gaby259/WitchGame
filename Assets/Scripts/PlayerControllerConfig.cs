@@ -10,7 +10,6 @@ public class PlayerControllerConfig : ScriptableObject
    
     
     [Header("Rotation")]
-    public float _smoothTime = 0.1f;
     public float _xCameraBounds = 80f;
 
 }
