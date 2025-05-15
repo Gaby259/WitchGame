@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerControllerConfig", menuName = "Scriptable Objects/PlayerControllerConfig")]
+[CreateAssetMenu(fileName = "PlayerControllerConfig", menuName = "GameConfig /PlayerControllerConfig")]
 public class PlayerControllerConfig : ScriptableObject
 {
     [Header("Movement")]
