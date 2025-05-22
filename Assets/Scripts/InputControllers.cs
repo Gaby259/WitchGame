@@ -5,10 +5,11 @@ using UnityEngine.InputSystem;
 public class InputController : MonoBehaviour
 {
     private GameControls _gameControls;
+    
+    //Player Controls
     public event Action JumpEvent;
-    public event Action JumpEventCancelled;
     public event Action<Vector2> MoveEvent;
-    public event Action<Vector2> MoveEventCancelled;
+    public event Action<Vector2> MouseLookEvent;
     private void Awake()
     {
         _gameControls = new GameControls();
@@ -21,7 +22,7 @@ public class InputController : MonoBehaviour
         _gameControls.Player.Move.performed += OnMovePerformed;
         _gameControls.Player.Move.canceled += OnMoveCancelled;
         _gameControls.Player.Jump.performed += OnJumpPerformed; //performed a jump call this function
-        _gameControls.Player.Jump.canceled += OnJumpCancelled;
+        _gameControls.Player.Look.performed += OnMouseMove;
     }
 
     private void OnMovePerformed(InputAction.CallbackContext context)
@@ -39,8 +40,9 @@ public class InputController : MonoBehaviour
         JumpEvent?.Invoke();
         Debug.Log("OnJumpPerformed");
     }
-    private void OnJumpCancelled(InputAction.CallbackContext context)
+
+    private void OnMouseMove(InputAction.CallbackContext context)
     {
-        Debug.Log("OnJumpCanceled");
+       MouseLookEvent?.Invoke(context.ReadValue<Vector2>());
     }
 }

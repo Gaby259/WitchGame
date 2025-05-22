@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: PlayerControllerConfig
   m_EditorClassIdentifier: 
   _movementSpeed: 6
+  _groundcceleration: 10
   _jumpHeight: 5
   _gravity: 10
-  _accelerationRate: 10
-  _airAcelerationRate: 5
-  _xCameraBounds: 80
+  _airAceleration: 5
+  _xCameraBounds: 40
+  _mouseSensitivity: 0.5

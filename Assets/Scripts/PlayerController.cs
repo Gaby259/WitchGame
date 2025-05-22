@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
@@ -8,6 +9,10 @@ public class PlayerController : MonoBehaviour
     private CharacterController _characterController;
     private Vector2 _moveInput;
     private Vector3 _currentVelocity;
+    private bool _isGrounded;
+    private Vector2 _mouseDirection; 
+    private Vector2 _mouseSensitivity;
+    private float _mouseRotation;
     
     [SerializeField] private Camera camera;
     [SerializeField] LayerMask groundLayer;
@@ -27,8 +32,10 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Input controller enabled");
             _inputController.MoveEvent += MovementInput;
             _inputController.JumpEvent += Jump;
+            _inputController.MouseLookEvent += Rotation; 
         }
     }
+    
 
     void Start()
     {
@@ -38,35 +45,46 @@ public class PlayerController : MonoBehaviour
     
     void Update()
     {
+        //MOVEMENT
         Vector3 targetDirection = new Vector3(_moveInput.x, 0, _moveInput.y);
         Vector3 targetVelocity = targetDirection * controllerConfig._movementSpeed;
 
-        float acceleration = IsGrounded() ? controllerConfig._accelerationRate : controllerConfig._airAcelerationRate;
+        float acceleration = IsGrounded() ? controllerConfig._groundcceleration : controllerConfig._airAceleration;
         _currentVelocity =  Vector3.MoveTowards(_currentVelocity, targetVelocity, acceleration * Time.deltaTime); //Time.deltaTime is for stopping
         
+        
+        //JUMP
+            //. v0 = sqrt(-2 * a * s) 
         _characterController.Move(_currentVelocity * Time.deltaTime);
-    
-      
+        
+        //ROTATE
     }
 
     private void MovementInput (Vector2 movement)
     {
-       Debug.Log(movement);
        _moveInput = movement; 
         
     }
 
-    void Rotation()
+    void Rotation(Vector2 mouseMovement)
     {
-        float mouseX = Input.GetAxis("Mouse X");//left and right
-        float mouseY = Input.GetAxis("Mouse Y");// up and down
-      
-        /*Vector2 targetDelta = new Vector2(mouseX, mouseY);
-        _currentMouseDelta = Vector2.SmoothDamp(_currentMouseDelta, targetDelta, ref _currentMouseVelocity, controllerConfig._xCameraBounds);
-        _xRotation -= _currentMouseDelta.y;
-        _xRotation = Mathf.Clamp(_xRotation,-controllerConfig._xCameraBounds, controllerConfig._xCameraBounds);
-        transform.Rotate(Vector3.up, _currentMouseDelta.x);
-        camera.transform.localRotation = Quaternion.Euler(_xRotation, 0, 0);*/
+        float mouseX = mouseMovement.x * controllerConfig._mouseSensitivity;
+        float mouseY = mouseMovement.y * controllerConfig._mouseSensitivity;
+
+        // Horizontal rotation
+        transform.Rotate(Vector3.up * mouseX);
+
+        // Vertical rotation (camera)
+        _mouseRotation -= mouseY;
+        _mouseRotation = Mathf.Clamp(_mouseRotation, -controllerConfig._xCameraBounds, controllerConfig._xCameraBounds);
+        camera.transform.localRotation = Quaternion.Euler(_mouseRotation, 0f, 0f);
+        /*Vector2 mouse= new Vector2(_mouseDirection.x, _mouseDirection.y);
+        _mouseDirection = Vector2.SmoothDamp(_mouseDirection, mouse, ref _mouseSensitivity, controllerConfig._xCameraBounds);
+        _mouseRotation -= _mouseDirection.y;
+        _mouseRotation = Mathf.Clamp(_mouseRotation, -controllerConfig._xCameraBounds, controllerConfig._xCameraBounds);
+        transform.Rotate(Vector3.up, _mouseRotation);
+        camera.transform.localRotation = Quaternion.Euler(_mouseRotation, 0, 0);*/
+        
     }
 
     void Jump()
@@ -86,16 +104,8 @@ public class PlayerController : MonoBehaviour
 
     private bool IsGrounded()
     {
-        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down), Color.red, 10f);
-        if (Physics.SphereCast(transform.position, .5f, Vector3.down, out RaycastHit hit, .6f, groundLayer))
-        {
-            Debug.Log("Hit the ground");
-            return true;
-        }
-        Debug.Log("No Grounded");
-        return false;
+        _isGrounded = Physics.SphereCast(transform.position, .5f, Vector3.down, out RaycastHit hit, .6f, groundLayer);
+        return _isGrounded;
     }
-    
-    
     
 }
