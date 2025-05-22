@@ -4,20 +4,24 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
-    [Header("Movement")]
-    [SerializeField] private PlayerControllerConfig controllerConfig;
+    private InputController _inputController;
     private CharacterController _characterController;
+    
+    [Header("Movement")]
+    [SerializeField] LayerMask groundLayer;
+    [SerializeField] private PlayerControllerConfig controllerConfig;
     private Vector2 _moveInput;
     private Vector3 _currentVelocity;
     private bool _isGrounded;
-    private Vector2 _mouseDirection; 
+    
+    [Header("Look Rotation")]
+    [SerializeField] private Transform lookTarget;
+    private Vector2 _mouseRotation; 
     private Vector2 _mouseSensitivity;
-    private float _mouseRotation;
+   // private float _mouseRotation;
     
     [SerializeField] private Camera camera;
-    [SerializeField] LayerMask groundLayer;
     
-    private InputController _inputController;
     
     void Awake()
     {
@@ -46,7 +50,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         //MOVEMENT
-        Vector3 targetDirection = new Vector3(_moveInput.x, 0, _moveInput.y);
+        Vector3 targetDirection =transform.right * _moveInput.x + transform.forward * _moveInput.y;
         Vector3 targetVelocity = targetDirection * controllerConfig._movementSpeed;
 
         float acceleration = IsGrounded() ? controllerConfig._groundcceleration : controllerConfig._airAceleration;
@@ -54,10 +58,17 @@ public class PlayerController : MonoBehaviour
         
         
         //JUMP
-            //. v0 = sqrt(-2 * a * s) 
+        if (!IsGrounded()) //if the player is not touching the floor do this...
+        {
+            _currentVelocity.y += Physics.gravity.y * controllerConfig._gravity *Time.deltaTime;
+        }
+            
+        
         _characterController.Move(_currentVelocity * Time.deltaTime);
         
         //ROTATE
+        transform.Rotate(Vector3.up, _mouseRotation.x * controllerConfig._mouseSensitivity);
+        lookTarget.Rotate(Vector3.right, -_mouseRotation.y * controllerConfig._mouseSensitivity);
     }
 
     private void MovementInput (Vector2 movement)
@@ -66,25 +77,9 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    void Rotation(Vector2 mouseMovement)
+    void Rotation(Vector2 mouseRotation)
     {
-        float mouseX = mouseMovement.x * controllerConfig._mouseSensitivity;
-        float mouseY = mouseMovement.y * controllerConfig._mouseSensitivity;
-
-        // Horizontal rotation
-        transform.Rotate(Vector3.up * mouseX);
-
-        // Vertical rotation (camera)
-        _mouseRotation -= mouseY;
-        _mouseRotation = Mathf.Clamp(_mouseRotation, -controllerConfig._xCameraBounds, controllerConfig._xCameraBounds);
-        camera.transform.localRotation = Quaternion.Euler(_mouseRotation, 0f, 0f);
-        /*Vector2 mouse= new Vector2(_mouseDirection.x, _mouseDirection.y);
-        _mouseDirection = Vector2.SmoothDamp(_mouseDirection, mouse, ref _mouseSensitivity, controllerConfig._xCameraBounds);
-        _mouseRotation -= _mouseDirection.y;
-        _mouseRotation = Mathf.Clamp(_mouseRotation, -controllerConfig._xCameraBounds, controllerConfig._xCameraBounds);
-        transform.Rotate(Vector3.up, _mouseRotation);
-        camera.transform.localRotation = Quaternion.Euler(_mouseRotation, 0, 0);*/
-        
+       _mouseRotation = mouseRotation;
     }
 
     void Jump()
@@ -92,13 +87,8 @@ public class PlayerController : MonoBehaviour
         
         if (IsGrounded())
         {
-            Debug.Log("Jump");
+            _currentVelocity.y = controllerConfig._jumpHeight;
         }
-        /*
-        //Apply Gravity 
-        _directionY-= controllerConfig._gravity * Time.deltaTime;
-        _direction.y = _directionY;
-        _controller.Move(_direction * controllerConfig._movementSpeed * Time.deltaTime);*/
         
     }
 

@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] private float _speed;
+   /* [SerializeField] private float _speed;
     [SerializeField] private LayerMask _environmentLayerMask;
     [SerializeField] private float _lifeTime;
-    [SerializeField] private LayerMask _environmentLayerMask;
+    [SerializeField] private LayerMask _enemyLayerMask;
 
     void Start()
     {
@@ -30,5 +30,5 @@ public class Projectile : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
+    }*/
 }

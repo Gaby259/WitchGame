@@ -150,13 +150,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42a99eb19d85df444a1df37b751b4add, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movementSpeed: 6
-  _jumpHeight: 10
-  _gravity: 0.2
-  _doubleJumpMultiplier: 3
-  _smoothTime: 0.1
-  _xCameraBounds: 80
-  _camera: {fileID: 2516042125137354061}
+  controllerConfig: {fileID: 0}
+  camera: {fileID: 0}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &3635259882925867059
 GameObject:
   m_ObjectHideFlags: 0
