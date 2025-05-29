@@ -18,4 +18,4 @@ MonoBehaviour:
   _gravity: 2
   _airAceleration: 6
   _xCameraBounds: 40
-  _mouseSensitivity: 0.5
+  _mouseSensitivity: 0.2

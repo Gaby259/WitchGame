@@ -19,8 +19,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 _mouseRotation; 
     private Vector2 _mouseSensitivity;
    // private float _mouseRotation;
-    
-    [SerializeField] private Camera camera;
+   
     
     
     void Awake()
@@ -68,6 +67,7 @@ public class PlayerController : MonoBehaviour
         
         //ROTATE
         transform.Rotate(Vector3.up, _mouseRotation.x * controllerConfig._mouseSensitivity);
+        Debug.Log(_mouseRotation.x + "mouse rotation");
         lookTarget.Rotate(Vector3.right, -_mouseRotation.y * controllerConfig._mouseSensitivity);
     }
 
