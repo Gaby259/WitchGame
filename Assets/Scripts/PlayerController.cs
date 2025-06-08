@@ -67,7 +67,6 @@ public class PlayerController : MonoBehaviour
         
         //ROTATE
         transform.Rotate(Vector3.up, _mouseRotation.x * controllerConfig._mouseSensitivity);
-        Debug.Log(_mouseRotation.x + "mouse rotation");
         lookTarget.Rotate(Vector3.right, -_mouseRotation.y * controllerConfig._mouseSensitivity);
     }
 
