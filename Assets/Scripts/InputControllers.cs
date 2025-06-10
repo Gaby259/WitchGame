@@ -44,7 +44,7 @@ public class InputController : MonoBehaviour
     private void OnJumpPerformed(InputAction.CallbackContext context)
     {
         JumpEvent?.Invoke();
-        Debug.Log("OnJumpPerformed");
+        
     }
 
     private void OnMouseMove(InputAction.CallbackContext context)
