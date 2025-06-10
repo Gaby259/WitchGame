@@ -49,12 +49,20 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         //MOVEMENT
-        Vector3 targetDirection =transform.right * _moveInput.x + transform.forward * _moveInput.y;
+        Vector3 targetDirection = transform.right * _moveInput.x + transform.forward * _moveInput.y;
         Vector3 targetVelocity = targetDirection * controllerConfig._movementSpeed;
 
         float acceleration = IsGrounded() ? controllerConfig._groundcceleration : controllerConfig._airAceleration;
-        _currentVelocity =  Vector3.MoveTowards(_currentVelocity, targetVelocity, acceleration * Time.deltaTime); //Time.deltaTime is for stopping
         
+        _currentVelocity =  Vector3.MoveTowards(_currentVelocity, targetVelocity, acceleration * Time.deltaTime); //Time.deltaTime is for stopping
+
+        if (targetDirection == Vector3.zero)
+        {
+            // We are wanting to decelerate.
+            _currentVelocity.x = 0;
+            _currentVelocity.z = 0;
+            //usar desaceleracion tal vez usar formula fisica para hacer esto
+        }
         
         //JUMP
         if (!IsGrounded()) //if the player is not touching the floor do this...
