@@ -8,10 +8,21 @@ public class PlayerCombat : MonoBehaviour
    {
        _inputController = GetComponent<InputController>();
    }
-    void Start()
-    {
-        
-    }
+
+   void Start()
+   {
+       _inputController.AttackEvent += FireWeapon;
+       _inputController.AttackEventCancelled += StopFireWeapon; 
+   }
+   void FireWeapon()
+   {
+       Debug.Log("Firing the weapon ");
+   }
+
+   void StopFireWeapon ()
+   {
+       Debug.Log("Stopped Firing");
+   }
 
     // Update is called once per frame
     void Update()
