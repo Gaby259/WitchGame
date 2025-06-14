@@ -1,18 +1,13 @@
+using System;
 using UnityEngine;
 
-public class Projectile : Weapon
+public class Projectile : MonoBehaviour
 {
-    [SerializeField] Projectile _projectile;
+    [SerializeField] protected float projectileSpeed = 10f;
+    [SerializeField] private float projectileLifeTime = 3f;
 
-    public override void Fire()
+    private void Start()
     {
-        if (!CanFire())
-        {
-            return;
-        }
-        Debug.Log("Projectile is Fire");
-        base.Fire(); // "base" go to the parent and call this particular function 
-        Instantiate(_projectile, firePoint.transform.position, firePoint.transform.rotation);
+        Destroy(gameObject, projectileLifeTime);
     }
-
-} 
+}

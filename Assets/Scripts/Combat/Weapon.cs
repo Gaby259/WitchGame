@@ -28,7 +28,7 @@ public class Weapon : MonoBehaviour
            
     }
 
-    protected  bool CanFire() //Childs can access to this function "protected" without become public 
+    protected  bool CanFire() //Child can access to this function "protected" without become public 
     {
         return _currentAmmo > 0;
     }

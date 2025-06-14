@@ -4,9 +4,7 @@ public class PlayerCombat : MonoBehaviour
 {
     private InputController _inputController;
 
-    [SerializeField]
-    private Weapon
-        _equippedWeapon; //We just need to have the weapon and this script is in charge only of shoot and stopped
+    [SerializeField] private Weapon _equippedWeapon; //We just need to have the weapon and this script is in charge only of shoot and stopped
 
     private void Awake()
     {
