@@ -168,7 +168,7 @@ MonoBehaviour:
   fireSpeed: 0.2
   bAutomatic: 1
   firePoint: {fileID: 1435345474346471550}
-  _projectile: {fileID: 3326282736701506887, guid: 3b4613cc2d3acd64b81afaec3a319b56, type: 3}
+  _projectile: {fileID: -6317709129441563317, guid: 3b4613cc2d3acd64b81afaec3a319b56, type: 3}
 --- !u!1 &7910075579861926871
 GameObject:
   m_ObjectHideFlags: 0

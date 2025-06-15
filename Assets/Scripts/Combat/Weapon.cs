@@ -4,8 +4,8 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     [Header("Weapon Details")]
-    [SerializeField] private int maxAmmo;
-    private int _currentAmmo;
+    [SerializeField] protected int maxAmmo;
+    protected int _currentAmmo;
     [SerializeField] private float fireSpeed = .2f;
     [SerializeField] private bool bAutomatic = false;
     [SerializeField] protected Transform firePoint;
@@ -21,7 +21,6 @@ public class Weapon : MonoBehaviour
             _currentAmmo--;
             //Start Shooting cooldown 
             //PLay sound effect 
-            // Spawn particle at muzzle point 
             
         }
            
@@ -32,5 +31,9 @@ public class Weapon : MonoBehaviour
     {
         return _currentAmmo > 0;
     }
-   
+
+    public void RefillAmmo()
+    {
+        _currentAmmo = maxAmmo;
+    }
 }
