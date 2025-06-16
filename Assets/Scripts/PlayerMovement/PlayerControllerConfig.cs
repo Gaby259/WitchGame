@@ -6,7 +6,8 @@ public class PlayerControllerConfig : ScriptableObject
 {
     [Header("Movement")]
    public float _movementSpeed = 6f;
-   public float _groundcceleration = 10f;//max velocity when player is on the floor 
+   public float _groundAcceleration = 10f; //max velocity when player is on the floor 
+   public float _groundDeceleration = 10f;
    
     [Header("Jump")]
     public float _jumpHeight = 10f;

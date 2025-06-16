@@ -52,16 +52,19 @@ public class PlayerController : MonoBehaviour
         Vector3 targetDirection = transform.right * _moveInput.x + transform.forward * _moveInput.y;
         Vector3 targetVelocity = targetDirection * controllerConfig._movementSpeed;
 
-        float acceleration = IsGrounded() ? controllerConfig._groundcceleration : controllerConfig._airAceleration;
+        float acceleration = IsGrounded() ? controllerConfig._groundAcceleration : controllerConfig._airAceleration;
         
-        _currentVelocity =  Vector3.MoveTowards(_currentVelocity, targetVelocity, acceleration * Time.deltaTime); //Time.deltaTime is for stopping
+        _currentVelocity =  Vector3.MoveTowards(_currentVelocity, targetVelocity, acceleration  * Time.deltaTime); //Time.deltaTime is for stopping player to float 
 
-        if (targetDirection == Vector3.zero)
+        //DECELERATION
+        if (targetDirection == Vector3.zero)// if input is realized return;
         {
-            // We are wanting to decelerate.
-            _currentVelocity.x = 0;
-            _currentVelocity.z = 0;
-            //usar desaceleracion tal vez usar formula fisica para hacer esto
+            Vector3 horizontalVelocity = new Vector3(_currentVelocity.x, 0, _currentVelocity.z);//Ignore the Y velocity and take into account x,z 
+            Vector3 deceleratedVelocity = Vector3.MoveTowards(horizontalVelocity, Vector3.zero, controllerConfig._groundDeceleration* Time.deltaTime); //Vector3.MoveTowards(a, b, maxDistanceDelta)
+
+            _currentVelocity.x = deceleratedVelocity.x;
+            _currentVelocity.z = deceleratedVelocity.z;
+           
         }
         
         //JUMP

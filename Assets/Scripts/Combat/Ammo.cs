@@ -2,10 +2,9 @@ using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Ammo :ProjectileWeapon
+public class Ammo :MonoBehaviour
 {
   [SerializeField] private Weapon WeaponType;
-
   
   private void OnTriggerEnter(Collider other)
   {

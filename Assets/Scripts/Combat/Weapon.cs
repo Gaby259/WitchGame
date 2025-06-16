@@ -15,7 +15,7 @@ public class Weapon : MonoBehaviour
     {
         _currentAmmo = maxAmmo;
     }
-    virtual public void Fire()
+    public virtual void Fire()
     {
         {
             _currentAmmo--;
