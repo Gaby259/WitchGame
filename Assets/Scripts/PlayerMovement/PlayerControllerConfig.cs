@@ -15,7 +15,7 @@ public class PlayerControllerConfig : ScriptableObject
     public float _airAceleration = 5f; //max velocity when player is in the air 
     
     [Header("Rotation")]
-    public float _xCameraBounds = 80f;
+    public float _CameraBounds = 30f;
     public float _mouseSensitivity = 100f;
     
 

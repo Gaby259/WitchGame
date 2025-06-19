@@ -79,6 +79,28 @@ public class PlayerController : MonoBehaviour
         //ROTATE
         transform.Rotate(Vector3.up, _mouseRotation.x * controllerConfig._mouseSensitivity);
         lookTarget.Rotate(Vector3.right, -_mouseRotation.y * controllerConfig._mouseSensitivity);
+        
+        ClampRotation();
+    }
+
+    private void ClampRotation()
+    {
+        float currentX = lookTarget.rotation.eulerAngles.x;
+        if (currentX > 180) // look at the opposite direction camerabounds
+        {
+            if (currentX < 360 - controllerConfig._CameraBounds)
+            {
+                currentX = 360 - controllerConfig._CameraBounds;
+            }
+        }
+        else if (currentX > controllerConfig._CameraBounds)
+        {
+            currentX = controllerConfig._CameraBounds;
+
+        }
+        Vector3 clampRotation = transform.eulerAngles;
+        clampRotation.x = currentX;
+        lookTarget.eulerAngles = clampRotation;
     }
 
     private void MovementInput (Vector2 movement)

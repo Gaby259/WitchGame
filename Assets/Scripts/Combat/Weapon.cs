@@ -6,7 +6,6 @@ public class Weapon : MonoBehaviour
     [Header("Weapon Details")]
     [SerializeField] protected int maxAmmo;
     protected int _currentAmmo;
-    [SerializeField] private float fireSpeed = .2f;
     [SerializeField] private bool bAutomatic = false;
     [SerializeField] protected Transform firePoint;
 
