@@ -34,8 +34,8 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Input controller enabled");
             _inputController.MoveEvent += MovementInput;
-            _inputController.JumpEvent += Jump;
-            _inputController.MouseLookEvent += Rotation; 
+            _inputController.JumpEvent += JumpInput;
+            _inputController.MouseLookEvent += RotationInput; 
         }
     }
     
@@ -48,39 +48,10 @@ public class PlayerController : MonoBehaviour
     
     void Update()
     {
-        //MOVEMENT
-        Vector3 targetDirection = transform.right * _moveInput.x + transform.forward * _moveInput.y;
-        Vector3 targetVelocity = targetDirection * controllerConfig._movementSpeed;
-
-        float acceleration = IsGrounded() ? controllerConfig._groundAcceleration : controllerConfig._airAceleration;
-        
-        _currentVelocity =  Vector3.MoveTowards(_currentVelocity, targetVelocity, acceleration  * Time.deltaTime); //Time.deltaTime is for stopping player to float 
-
-        //DECELERATION
-        if (targetDirection == Vector3.zero)// if input is realized return;
-        {
-            Vector3 horizontalVelocity = new Vector3(_currentVelocity.x, 0, _currentVelocity.z);//Ignore the Y velocity and take into account x,z 
-            Vector3 deceleratedVelocity = Vector3.MoveTowards(horizontalVelocity, Vector3.zero, controllerConfig._groundDeceleration* Time.deltaTime); //Vector3.MoveTowards(a, b, maxDistanceDelta)
-
-            _currentVelocity.x = deceleratedVelocity.x;
-            _currentVelocity.z = deceleratedVelocity.z;
-           
-        }
-        
-        //JUMP
-        if (!IsGrounded()) //if the player is not touching the floor do this...
-        {
-            _currentVelocity.y += Physics.gravity.y * controllerConfig._gravity *Time.deltaTime;
-        }
-            
-        
-        _characterController.Move(_currentVelocity * Time.deltaTime);
-        
-        //ROTATE
-        transform.Rotate(Vector3.up, _mouseRotation.x * controllerConfig._mouseSensitivity);
-        lookTarget.Rotate(Vector3.right, -_mouseRotation.y * controllerConfig._mouseSensitivity);
-        
-        ClampRotation();
+      Movement();
+      Jump();
+      Rotate();
+      ClampRotation();
     }
 
     private void ClampRotation()
@@ -106,15 +77,41 @@ public class PlayerController : MonoBehaviour
     private void MovementInput (Vector2 movement)
     {
        _moveInput = movement; 
-        
     }
 
-    void Rotation(Vector2 mouseRotation)
+    private void Movement()
+    {
+        Vector3 targetDirection = transform.right * _moveInput.x + transform.forward * _moveInput.y;
+        Vector3 targetVelocity = targetDirection * controllerConfig._movementSpeed;
+
+        float acceleration = IsGrounded() ? controllerConfig._groundAcceleration : controllerConfig._airAceleration;
+        
+        _currentVelocity =  Vector3.MoveTowards(_currentVelocity, targetVelocity, acceleration  * Time.deltaTime); //Time.deltaTime is for stopping player to float 
+        //DECELERATION
+        if (targetDirection == Vector3.zero)// if input is realized return;
+        {
+            Vector3 horizontalVelocity = new Vector3(_currentVelocity.x, 0, _currentVelocity.z);//Ignore the Y velocity and take into account x,z 
+            Vector3 deceleratedVelocity = Vector3.MoveTowards(horizontalVelocity, Vector3.zero, controllerConfig._groundDeceleration* Time.deltaTime); //Vector3.MoveTowards(a, b, maxDistanceDelta)
+
+            _currentVelocity.x = deceleratedVelocity.x;
+            _currentVelocity.z = deceleratedVelocity.z;
+           
+        }
+    }
+    
+
+    private void RotationInput(Vector2 mouseRotation)
     {
        _mouseRotation = mouseRotation;
     }
 
-    void Jump()
+    private void Rotate()
+    {
+        transform.Rotate(Vector3.up, _mouseRotation.x * controllerConfig._mouseSensitivity);
+        lookTarget.Rotate(Vector3.right, -_mouseRotation.y * controllerConfig._mouseSensitivity);
+    }
+
+    private void JumpInput()
     {
         
         if (IsGrounded())
@@ -129,5 +126,13 @@ public class PlayerController : MonoBehaviour
         _isGrounded = Physics.SphereCast(transform.position, .5f, Vector3.down, out RaycastHit hit, .6f, groundLayer);
         return _isGrounded;
     }
-    
+
+    private void Jump()
+    {
+        if (!IsGrounded()) //if the player is not touching the floor do this...
+        {
+            _currentVelocity.y += Physics.gravity.y * controllerConfig._gravity *Time.deltaTime;
+        }
+        _characterController.Move(_currentVelocity * Time.deltaTime);
+    }
 }
