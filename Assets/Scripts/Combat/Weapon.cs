@@ -12,7 +12,7 @@ public class Weapon : MonoBehaviour
 
     [Header("Weapon Animator")] 
     [SerializeField] protected Animator animator;
-    private int _fireHash = Animator.StringToHash("Fire");
+    private int _fireHash = Animator.StringToHash("Attack");
 
     private void Start()
     {
