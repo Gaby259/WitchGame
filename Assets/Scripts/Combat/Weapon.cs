@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.Animations;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
@@ -9,6 +10,9 @@ public class Weapon : MonoBehaviour
     [SerializeField] private bool bAutomatic = false;
     [SerializeField] protected Transform firePoint;
 
+    [Header("Weapon Animator")] 
+    [SerializeField] protected Animator animator;
+    private int _fireHash = Animator.StringToHash("Fire");
 
     private void Start()
     {
@@ -18,6 +22,7 @@ public class Weapon : MonoBehaviour
     {
         {
             _currentAmmo--;
+            animator?.SetTrigger(_fireHash); //this says "If animator exists, call set trigger on it
             //Start Shooting cooldown 
             //PLay sound effect 
             

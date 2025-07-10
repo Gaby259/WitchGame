@@ -33,7 +33,7 @@ public class InputController : MonoBehaviour
 
     private void OnMovePerformed(InputAction.CallbackContext context)
     {
-        MoveEvent?.Invoke(context.ReadValue<Vector2>());
+        MoveEvent?.Invoke(context.ReadValue<Vector2>()); //excellent
     }
 
     private void OnMoveCancelled(InputAction.CallbackContext context)

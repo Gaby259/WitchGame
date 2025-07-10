@@ -20,7 +20,13 @@ public class PlayerController : MonoBehaviour
     private Vector2 _mouseSensitivity;
   
     private Animator _playerAnimator;
-
+    
+    /// <summary>
+    /// These are variables for animation
+    /// </summary>
+    private int _moveSpeedHash = Animator.StringToHash("MoveSpeed");
+    private int _jumpHash = Animator.StringToHash("Jump");
+    private int _isGroundedHash = Animator.StringToHash("IsGrounded");
    void Awake()
     {
         _characterController = GetComponent<CharacterController>();
@@ -30,7 +36,7 @@ public class PlayerController : MonoBehaviour
 
     void OnEnable()
     {
-        if (_inputController != null)
+        if (_inputController != null) //good!
         {
             Debug.Log("Input controller enabled");
             _inputController.MoveEvent += MovementInput;
@@ -59,14 +65,14 @@ public class PlayerController : MonoBehaviour
         float currentX = lookTarget.rotation.eulerAngles.x;
         if (currentX > 180) // look at the opposite direction camerabounds
         {
-            if (currentX < 360 - controllerConfig._CameraBounds)
+            if (currentX < 360 - controllerConfig.CameraBounds)
             {
-                currentX = 360 - controllerConfig._CameraBounds;
+                currentX = 360 - controllerConfig.CameraBounds;
             }
         }
-        else if (currentX > controllerConfig._CameraBounds)
+        else if (currentX > controllerConfig.CameraBounds)
         {
-            currentX = controllerConfig._CameraBounds;
+            currentX = controllerConfig.CameraBounds;
 
         }
         Vector3 clampRotation = transform.eulerAngles;
@@ -82,9 +88,9 @@ public class PlayerController : MonoBehaviour
     private void Movement()
     {
         Vector3 targetDirection = transform.right * _moveInput.x + transform.forward * _moveInput.y;
-        Vector3 targetVelocity = targetDirection * controllerConfig._movementSpeed;
+        Vector3 targetVelocity = targetDirection * controllerConfig.MovementSpeed;
 
-        float acceleration = IsGrounded() ? controllerConfig._groundAcceleration : controllerConfig._airAceleration;
+        float acceleration = IsGrounded() ? controllerConfig._groundAcceleration : controllerConfig.AirAcceleration;
         
         _currentVelocity =  Vector3.MoveTowards(_currentVelocity, targetVelocity, acceleration  * Time.deltaTime); //Time.deltaTime is for stopping player to float 
         Vector3 horizontalFinalVelocity = new Vector3(_currentVelocity.x, 0, _currentVelocity.z);//Ignore the Y velocity and take into account x,z 
@@ -96,7 +102,7 @@ public class PlayerController : MonoBehaviour
             _currentVelocity.x = deceleratedVelocity.x;
             _currentVelocity.z = deceleratedVelocity.z;
         }
-        _playerAnimator.SetFloat("MoveSpeed", horizontalFinalVelocity.magnitude);
+        _playerAnimator.SetFloat(_moveSpeedHash, horizontalFinalVelocity.magnitude);
         
     }
     
@@ -118,6 +124,8 @@ public class PlayerController : MonoBehaviour
         if (IsGrounded())
         {
             _currentVelocity.y = controllerConfig._jumpHeight;
+            Debug.Log("Jump!");
+            _playerAnimator.SetTrigger(_jumpHash);
         }
         
     }
@@ -135,7 +143,8 @@ public class PlayerController : MonoBehaviour
             _currentVelocity.y += Physics.gravity.y * controllerConfig._gravity *Time.deltaTime;
         }
         _characterController.Move(_currentVelocity * Time.deltaTime);
-       _playerAnimator.SetBool("Jump", IsGrounded());
+        
+        _playerAnimator.SetBool(_isGroundedHash, IsGrounded());
     
     }
 }
