@@ -21,9 +21,7 @@ public class PlayerController : MonoBehaviour
   
     private Animator _playerAnimator;
     
-    /// <summary>
-    /// These are variables for animation
-    /// </summary>
+    //These are variables for animation
     private int _moveSpeedHash = Animator.StringToHash("MoveSpeed");
     private int _jumpHash = Animator.StringToHash("Jump");
     private int _isGroundedHash = Animator.StringToHash("IsGrounded");
@@ -36,12 +34,13 @@ public class PlayerController : MonoBehaviour
 
     void OnEnable()
     {
-        if (_inputController != null) //good!
+        if (_inputController != null) 
         {
             Debug.Log("Input controller enabled");
             _inputController.MoveEvent += MovementInput;
             _inputController.JumpEvent += JumpInput;
-            _inputController.MouseLookEvent += RotationInput; 
+            _inputController.MouseLookEvent += RotationInput;
+            _inputController.InteractEvent += AttempInteract;
         }
     }
     
@@ -59,26 +58,7 @@ public class PlayerController : MonoBehaviour
       Rotate();
       ClampRotation();
     }
-
-    private void ClampRotation()
-    {
-        float currentX = lookTarget.rotation.eulerAngles.x;
-        if (currentX > 180) // look at the opposite direction camerabounds
-        {
-            if (currentX < 360 - controllerConfig.CameraBounds)
-            {
-                currentX = 360 - controllerConfig.CameraBounds;
-            }
-        }
-        else if (currentX > controllerConfig.CameraBounds)
-        {
-            currentX = controllerConfig.CameraBounds;
-
-        }
-        Vector3 clampRotation = transform.eulerAngles;
-        clampRotation.x = currentX;
-        lookTarget.eulerAngles = clampRotation;
-    }
+    
 
     private void MovementInput (Vector2 movement)
     {
@@ -117,6 +97,28 @@ public class PlayerController : MonoBehaviour
         transform.Rotate(Vector3.up, _mouseRotation.x * controllerConfig._mouseSensitivity);
         lookTarget.Rotate(Vector3.right, -_mouseRotation.y * controllerConfig._mouseSensitivity);
     }
+    
+    private void ClampRotation()
+    {
+        //Camera Clamp Rotation
+        float currentX = lookTarget.rotation.eulerAngles.x;
+        if (currentX > 180) // look at the opposite direction camerabounds
+        {
+            if (currentX < 360 - controllerConfig.CameraBounds)
+            {
+                currentX = 360 - controllerConfig.CameraBounds;
+            }
+        }
+        else if (currentX > controllerConfig.CameraBounds)
+        {
+            currentX = controllerConfig.CameraBounds;
+
+        }
+        Vector3 clampRotation = transform.eulerAngles;
+        clampRotation.x = currentX;
+        lookTarget.eulerAngles = clampRotation;
+    }
+    
 
     private void JumpInput()
     {
@@ -146,5 +148,10 @@ public class PlayerController : MonoBehaviour
         
         _playerAnimator.SetBool(_isGroundedHash, IsGrounded());
     
+    }
+
+    private void AttempInteract()
+    {
+        
     }
 }

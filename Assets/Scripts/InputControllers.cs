@@ -13,6 +13,8 @@ public class InputController : MonoBehaviour
 
     public event Action AttackEvent;
     public event Action AttackEventCancelled;
+    
+    public event Action InteractEvent;
     private void Awake()
     {
         _gameControls = new GameControls();
@@ -29,8 +31,13 @@ public class InputController : MonoBehaviour
         _gameControls.Player.Look.canceled += OnMouseMoveCancelled;
         _gameControls.Player.Attack.performed += OnAttackPerformed;
         _gameControls.Player.Attack.canceled += OnAttackCancelled;
+        _gameControls.Player.Interact.performed += OnInteractPerformed;
     }
 
+    private void OnInteractPerformed(InputAction.CallbackContext contect)
+    {
+        InteractEvent?.Invoke();
+    }
     private void OnMovePerformed(InputAction.CallbackContext context)
     {
         MoveEvent?.Invoke(context.ReadValue<Vector2>()); //excellent
