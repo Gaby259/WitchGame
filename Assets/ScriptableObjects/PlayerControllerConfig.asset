@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerControllerConfig
   m_EditorClassIdentifier: 
   _movementSpeed: 20
-  _groundAcceleration: 10
+  _groundAcceleration: 15
   _groundDeceleration: 10
   _jumpHeight: 15
   _gravity: 2
