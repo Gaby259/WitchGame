@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2725e495a7b930849836e9d0b1f8de35, type: 3}
   m_Name: PlayerControllerConfig
   m_EditorClassIdentifier: 
-  _movementSpeed: 20
-  _groundAcceleration: 15
+  <MovementSpeed>k__BackingField: 6
+  _groundAcceleration: 10
   _groundDeceleration: 10
   _jumpHeight: 15
   _gravity: 2

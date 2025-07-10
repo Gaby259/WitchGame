@@ -22,7 +22,7 @@ public class PlayerCombat : MonoBehaviour
     {
         Debug.Log("FireWeapon");
         _equippedWeapon.Fire();
-        GetComponentInChildren<Animator>().SetTrigger("Attack");
+
     }
 
     void StopFireWeapon()
