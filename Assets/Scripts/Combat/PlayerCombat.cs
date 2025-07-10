@@ -20,14 +20,14 @@ public class PlayerCombat : MonoBehaviour
 
     void FireWeapon()
     {
-        Debug.Log("FireWeapon");
+      
         _equippedWeapon.Fire();
 
     }
 
     void StopFireWeapon()
     {
-        Debug.Log("Stopped Firing");
+      
     }
 
 }

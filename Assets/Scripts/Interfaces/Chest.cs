@@ -1,16 +1,9 @@
 using UnityEngine;
 
-public class Chest : MonoBehaviour
+public class Chest : MonoBehaviour, IInteractable
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void Interact()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Destroy(gameObject);
     }
 }

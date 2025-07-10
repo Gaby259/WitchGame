@@ -19,12 +19,16 @@ public class PlayerController : MonoBehaviour
     private Vector2 _mouseRotation; 
     private Vector2 _mouseSensitivity;
   
+    [Header("Animation")]
     private Animator _playerAnimator;
-    
     //These are variables for animation
     private int _moveSpeedHash = Animator.StringToHash("MoveSpeed");
     private int _jumpHash = Animator.StringToHash("Jump");
     private int _isGroundedHash = Animator.StringToHash("IsGrounded");
+    
+    [Header("Interaction")]
+    [SerializeField] private LayerMask interactionLayer;
+
    void Awake()
     {
         _characterController = GetComponent<CharacterController>();
@@ -36,7 +40,6 @@ public class PlayerController : MonoBehaviour
     {
         if (_inputController != null) 
         {
-            Debug.Log("Input controller enabled");
             _inputController.MoveEvent += MovementInput;
             _inputController.JumpEvent += JumpInput;
             _inputController.MouseLookEvent += RotationInput;
@@ -57,6 +60,7 @@ public class PlayerController : MonoBehaviour
       Jump();
       Rotate();
       ClampRotation();
+     
     }
     
 
@@ -126,7 +130,6 @@ public class PlayerController : MonoBehaviour
         if (IsGrounded())
         {
             _currentVelocity.y = controllerConfig._jumpHeight;
-            Debug.Log("Jump!");
             _playerAnimator.SetTrigger(_jumpHash);
         }
         
@@ -152,6 +155,19 @@ public class PlayerController : MonoBehaviour
 
     private void AttempInteract()
     {
-        
+        Debug.Log("Attemping interaction");
+        Vector3 origin = lookTarget.position;
+        Debug.DrawRay(origin, lookTarget.forward * controllerConfig._interactDistance, Color.red);
+        if (Physics.Raycast(origin, lookTarget.forward, out RaycastHit hit, controllerConfig._interactDistance,
+                interactionLayer))
+        {
+           IInteractable interactable = hit.collider.gameObject.GetComponent<IInteractable>();
+            if (interactable != null)
+           {
+               interactable.Interact();
+           }
+          
+        }
+       
     }
 }

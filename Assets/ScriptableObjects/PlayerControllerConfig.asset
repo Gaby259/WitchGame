@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2725e495a7b930849836e9d0b1f8de35, type: 3}
   m_Name: PlayerControllerConfig
   m_EditorClassIdentifier: 
-  <MovementSpeed>k__BackingField: 6
+  <MovementSpeed>k__BackingField: 10
   _groundAcceleration: 10
   _groundDeceleration: 10
   _jumpHeight: 15
   _gravity: 2
-  _airAceleration: 6
-  _CameraBounds: 40
+  <AirAcceleration>k__BackingField: 5
+  <CameraBounds>k__BackingField: 30
   _mouseSensitivity: 0.15
+  _interactDistance: 5

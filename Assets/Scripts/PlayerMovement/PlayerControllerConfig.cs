@@ -17,6 +17,8 @@ public class PlayerControllerConfig : ScriptableObject
     [Header("Rotation")]
     [field:SerializeField]public float CameraBounds { get; private set; } = 30f;
     public float _mouseSensitivity = 100f;
-    
+
+    [Header("Interact")] 
+    public float _interactDistance = 1000f;
 
 }
