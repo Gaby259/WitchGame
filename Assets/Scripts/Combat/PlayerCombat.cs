@@ -9,6 +9,7 @@ public class PlayerCombat : MonoBehaviour
     private void Awake()
     {
         _inputController = GetComponent<InputController>();
+       
     }
 
     void Start()
@@ -21,6 +22,7 @@ public class PlayerCombat : MonoBehaviour
     {
         Debug.Log("FireWeapon");
         _equippedWeapon.Fire();
+        GetComponentInChildren<Animator>().SetTrigger("Attack");
     }
 
     void StopFireWeapon()

@@ -18,14 +18,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform lookTarget;
     private Vector2 _mouseRotation; 
     private Vector2 _mouseSensitivity;
-   // private float _mouseRotation;
-   
-    
-    
-    void Awake()
+  
+    private Animator _playerAnimator;
+
+   void Awake()
     {
         _characterController = GetComponent<CharacterController>();
         _inputController = GetComponent<InputController>();
+        _playerAnimator = GetComponentInChildren<Animator>();
     }
 
     void OnEnable()
@@ -87,6 +87,9 @@ public class PlayerController : MonoBehaviour
         float acceleration = IsGrounded() ? controllerConfig._groundAcceleration : controllerConfig._airAceleration;
         
         _currentVelocity =  Vector3.MoveTowards(_currentVelocity, targetVelocity, acceleration  * Time.deltaTime); //Time.deltaTime is for stopping player to float 
+        _playerAnimator.SetFloat("MoveSpeed", _currentVelocity.magnitude);
+        Debug.Log("Speed" + _currentVelocity.magnitude);
+       
         //DECELERATION
         if (targetDirection == Vector3.zero)// if input is realized return;
         {
@@ -97,6 +100,8 @@ public class PlayerController : MonoBehaviour
             _currentVelocity.z = deceleratedVelocity.z;
            
         }
+       
+        
     }
     
 
@@ -117,6 +122,7 @@ public class PlayerController : MonoBehaviour
         if (IsGrounded())
         {
             _currentVelocity.y = controllerConfig._jumpHeight;
+            _playerAnimator.SetTrigger("Jump");
         }
         
     }
@@ -134,5 +140,6 @@ public class PlayerController : MonoBehaviour
             _currentVelocity.y += Physics.gravity.y * controllerConfig._gravity *Time.deltaTime;
         }
         _characterController.Move(_currentVelocity * Time.deltaTime);
+    
     }
 }
