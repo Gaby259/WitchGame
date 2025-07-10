@@ -87,20 +87,16 @@ public class PlayerController : MonoBehaviour
         float acceleration = IsGrounded() ? controllerConfig._groundAcceleration : controllerConfig._airAceleration;
         
         _currentVelocity =  Vector3.MoveTowards(_currentVelocity, targetVelocity, acceleration  * Time.deltaTime); //Time.deltaTime is for stopping player to float 
-        _playerAnimator.SetFloat("MoveSpeed", _currentVelocity.magnitude);
-        Debug.Log("Speed" + _currentVelocity.magnitude);
-       
-        //DECELERATION
-        if (targetDirection == Vector3.zero)// if input is realized return;
-        {
-            Vector3 horizontalVelocity = new Vector3(_currentVelocity.x, 0, _currentVelocity.z);//Ignore the Y velocity and take into account x,z 
-            Vector3 deceleratedVelocity = Vector3.MoveTowards(horizontalVelocity, Vector3.zero, controllerConfig._groundDeceleration* Time.deltaTime); //Vector3.MoveTowards(a, b, maxDistanceDelta)
+        Vector3 horizontalFinalVelocity = new Vector3(_currentVelocity.x, 0, _currentVelocity.z);//Ignore the Y velocity and take into account x,z 
+        Vector3 deceleratedVelocity = Vector3.MoveTowards(horizontalFinalVelocity, Vector3.zero, controllerConfig._groundDeceleration* Time.deltaTime); //Vector3.MoveTowards(a, b, maxDistanceDelta)
 
+        //DECELERATION
+       if (targetDirection == Vector3.zero)// if input is realized return;
+        {
             _currentVelocity.x = deceleratedVelocity.x;
             _currentVelocity.z = deceleratedVelocity.z;
-           
         }
-       
+        _playerAnimator.SetFloat("MoveSpeed", horizontalFinalVelocity.magnitude);
         
     }
     
@@ -122,7 +118,6 @@ public class PlayerController : MonoBehaviour
         if (IsGrounded())
         {
             _currentVelocity.y = controllerConfig._jumpHeight;
-            _playerAnimator.SetTrigger("Jump");
         }
         
     }
@@ -140,6 +135,7 @@ public class PlayerController : MonoBehaviour
             _currentVelocity.y += Physics.gravity.y * controllerConfig._gravity *Time.deltaTime;
         }
         _characterController.Move(_currentVelocity * Time.deltaTime);
+       _playerAnimator.SetBool("Jump", IsGrounded());
     
     }
 }
