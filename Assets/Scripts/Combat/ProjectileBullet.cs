@@ -10,12 +10,18 @@ public class ProjectileBullet : Projectile
 
   private void OnTriggerEnter(Collider other)
   {
-    if (other.gameObject.CompareTag("Enemy"))
+    Debug.Log("collide with " + other.name);
+    if (other.TryGetComponent<Enemy>(out Enemy enemy))
     {
-      Destroy(other.gameObject);
+      Debug.Log("Hit Enemy");
+      enemy.TakeDamage(damage);
     }
-    Instantiate(impactParticles,transform.position,transform.rotation);
-    Destroy (gameObject);
+
+    if (impactParticles != null)
+    {
+      Instantiate(impactParticles, transform.position, transform.rotation);
+      Destroy(gameObject); //Destroy Bullet
+    }
     //impact particles
   }
 }

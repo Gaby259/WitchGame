@@ -11,7 +11,7 @@ public enum EnemyAIState
 public class Enemy : MonoBehaviour
 {
    [SerializeField] private EnemyAIState currentState = EnemyAIState.Idle;
-
+   [SerializeField] private float enemiesHealth = 20;
    private void Update()
    {
       switch (currentState)
@@ -41,4 +41,21 @@ public class Enemy : MonoBehaviour
    {
       Debug.Log(gameObject.name +"is Attacking");
    }
+
+   public virtual void TakeDamage(float damageAmount) //Is virtual so enemies subclasses can override it 
+   {
+      Debug.Log(gameObject.name + " is " + damageAmount + " damage");
+      enemiesHealth -= damageAmount;
+      if (enemiesHealth <= 0)
+      {
+         Die();
+      }
+   }
+
+   protected virtual void Die()
+   {
+      Destroy(gameObject);
+      //Enemy is dead , animation sequence can be play
+   }
 }
+

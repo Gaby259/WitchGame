@@ -14,7 +14,6 @@ public class ProjectileWeapon : Weapon
 //        Debug.Log("Firing");
         base.Fire(); // "base" go to the parent and call this particular function 
         var bullet = Instantiate(_projectile, firePoint.transform.position, firePoint.transform.rotation);
-       // Debug.Log("Initiate bullet" + bullet.name);
     }
 
 } 
