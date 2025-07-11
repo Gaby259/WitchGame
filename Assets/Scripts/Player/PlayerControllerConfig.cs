@@ -20,5 +20,6 @@ public class PlayerControllerConfig : ScriptableObject
 
     [Header("Interact")] 
     public float _interactDistance = 1000f;
+    
 
 }

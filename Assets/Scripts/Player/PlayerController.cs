@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
             _inputController.MoveEvent += MovementInput;
             _inputController.JumpEvent += JumpInput;
             _inputController.MouseLookEvent += RotationInput;
-            _inputController.InteractEvent += AttempInteract;
+            _inputController.InteractEvent += AttempInteractInput;
         }
     }
     
@@ -153,6 +153,10 @@ public class PlayerController : MonoBehaviour
     
     }
 
+    private void AttempInteractInput()
+    {
+        AttempInteract();
+    }
     private void AttempInteract()
     {
         Debug.Log("Attemping interaction");
@@ -170,4 +174,5 @@ public class PlayerController : MonoBehaviour
         }
        
     }
+    
 }
