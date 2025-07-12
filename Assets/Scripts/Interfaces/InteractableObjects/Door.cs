@@ -4,7 +4,7 @@ public class Door : MonoBehaviour, IInteractable
 {
     [SerializeField] Transform doorPivot;
     [SerializeField] float doorOpenSpeed = 40f;
-    [SerializeField] private float doorRotation = 90f;
+    [SerializeField] private float doorRotation = -90f;
     public void Interact()
     {
        OpenDoor();

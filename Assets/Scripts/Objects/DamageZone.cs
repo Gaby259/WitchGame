@@ -6,9 +6,11 @@ public class DamageZone : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
+        //Debug.Log(other.name);
         if (other.CompareTag("Player"))
         {
             Debug.Log("Player Entered DamageZone");
+            
         }
         /*if (other.CompareTag("Player"))
         {

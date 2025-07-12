@@ -36,7 +36,6 @@ public class InputController : MonoBehaviour
 
     private void OnInteractPerformed(InputAction.CallbackContext context)
     {
-        Debug.Log("Interact performed");
         InteractEvent?.Invoke();
     }
     private void OnMovePerformed(InputAction.CallbackContext context)

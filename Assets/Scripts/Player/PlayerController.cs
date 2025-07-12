@@ -159,7 +159,6 @@ public class PlayerController : MonoBehaviour
     }
     private void AttempInteract()
     {
-        Debug.Log("Attemping interaction");
         Vector3 origin = lookTarget.position;
         Debug.DrawRay(origin, lookTarget.forward * controllerConfig._interactDistance, Color.red);
         if (Physics.Raycast(origin, lookTarget.forward, out RaycastHit hit, controllerConfig._interactDistance,

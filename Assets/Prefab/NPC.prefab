@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2736458353257466558}
-  - component: {fileID: 6520937647291714671}
   m_Layer: 8
   m_Name: NPC
   m_TagString: Enemy
@@ -27,24 +26,12 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.2294, y: -0.39, z: -0.38}
-  m_LocalScale: {x: 47.51748, y: 47.51748, z: 47.51748}
+  m_LocalScale: {x: 62.63754, y: 62.63754, z: 62.63754}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7129868007280559520}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6520937647291714671
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 807006012684347396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a16c879c84eee7468c454909e95db34, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7186669606303725687
 GameObject:
   m_ObjectHideFlags: 0
@@ -57,6 +44,7 @@ GameObject:
   - component: {fileID: 5742303653799992574}
   - component: {fileID: 3794272240492407054}
   - component: {fileID: 9109906180112610817}
+  - component: {fileID: 4597439421525072115}
   m_Layer: 8
   m_Name: NPC
   m_TagString: Enemy
@@ -155,3 +143,15 @@ CapsuleCollider:
   m_Height: 0.04642184
   m_Direction: 1
   m_Center: {x: -0.0000000034888217, y: -0.0000000037252903, z: 0}
+--- !u!114 &4597439421525072115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7186669606303725687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a16c879c84eee7468c454909e95db34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

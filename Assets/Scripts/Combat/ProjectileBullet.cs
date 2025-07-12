@@ -10,10 +10,8 @@ public class ProjectileBullet : Projectile
 
   private void OnTriggerEnter(Collider other)
   {
-    Debug.Log("collide with " + other.name);
     if (other.TryGetComponent<Enemy>(out Enemy enemy))
     {
-      Debug.Log("Hit Enemy");
       enemy.TakeDamage(damage);
     }
 
