@@ -1,6 +1,8 @@
 using System;
 using System.Data.Common;
+using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.Accessibility;
 using UnityEngine.AI;
 
 public enum EnemyAIState
@@ -18,6 +20,10 @@ public class Enemy : MonoBehaviour
    [SerializeField] private float detectionDistance = 5f;
    [SerializeField] private float chaseSpeed = 5f;
    [SerializeField] private float patrolSpeed = 5f;
+
+   [Header("Attack")] 
+   [SerializeField] private float damage = 5;
+   [SerializeField] private float attackRange =1.5f;
    
    
    [Header("Target")]
@@ -29,6 +35,11 @@ public class Enemy : MonoBehaviour
    
    [Header("NavMesh")]
    NavMeshAgent _navMeshAgent;
+
+   [Header("Animation")]
+   [SerializeField] private Animator _enemyAnimator;
+   private int _chaseHash = Animator.StringToHash("Chase");
+   private int _attackHash = Animator.StringToHash("Attack");
    private void Start()
    {
       _navMeshAgent = GetComponent<NavMeshAgent>();
@@ -76,6 +87,15 @@ public class Enemy : MonoBehaviour
       }
    }
 
+   private void OnTriggerEnter(Collider other)
+   {
+      if (other.CompareTag("Player"))
+      {
+         Debug.Log("Enemy saw the player");
+         currentState= EnemyAIState.Chase;
+      }
+   }
+
    void OnDrawGizmos()
    {
       if (waypoints != null && waypoints.Length > 0)
@@ -99,9 +119,11 @@ public class Enemy : MonoBehaviour
    void ChaseBehaviour()
    {
       _navMeshAgent.speed = chaseSpeed;
-    Debug.Log(gameObject.name + " is chase");
+      _enemyAnimator.SetTrigger(_chaseHash);
+      Debug.Log(gameObject.name + " is chase");
     float currentDistance = Vector3.Distance(transform.position, currentTarget.transform.position);
     _navMeshAgent.SetDestination(currentTarget.transform.position);
+    
     if (currentDistance < detectionDistance)
     {
        currentState = EnemyAIState.Attack;
@@ -110,7 +132,31 @@ public class Enemy : MonoBehaviour
 
    void AttackBehavior()
    {
-      Debug.Log(gameObject.name +"is Attacking");
+      bool playerInRange = false;
+      Debug.Log(gameObject.name + "is Attacking");
+      Collider[] hits = Physics.OverlapSphere(transform.position, attackRange);
+
+      foreach (var hit in hits) // Loop through each collider detected
+      {
+         if (hit.CompareTag("Player"))
+         {
+            playerInRange = true;
+            Debug.Log("Player has enter the damage zone");
+            PlayerHealth playerHealth = hit.GetComponent<PlayerHealth>();
+            _enemyAnimator.SetTrigger(_attackHash);
+            if (playerHealth != null)
+            {
+               playerHealth.TakeDamage(damage * Time.deltaTime);
+              
+            }
+            
+         }
+      }
+      //If player is out of range change to chase patrol mode
+      if (!playerInRange)
+      {
+         currentState = EnemyAIState.Chase;
+      }
    }
 
    public virtual void TakeDamage(float damageAmount) //Is virtual so enemies subclasses can override it 
