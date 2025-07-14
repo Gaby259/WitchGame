@@ -74,11 +74,11 @@ public class PlayerController : MonoBehaviour
         Vector3 targetDirection = transform.right * _moveInput.x + transform.forward * _moveInput.y;
         Vector3 targetVelocity = targetDirection * controllerConfig.MovementSpeed;
 
-        float acceleration = IsGrounded() ? controllerConfig._groundAcceleration : controllerConfig.AirAcceleration;
+        float acceleration = IsGrounded() ? controllerConfig.groundAcceleration : controllerConfig.AirAcceleration;
         
         _currentVelocity =  Vector3.MoveTowards(_currentVelocity, targetVelocity, acceleration  * Time.deltaTime); //Time.deltaTime is for stopping player to float 
         Vector3 horizontalFinalVelocity = new Vector3(_currentVelocity.x, 0, _currentVelocity.z);//Ignore the Y velocity and take into account x,z 
-        Vector3 deceleratedVelocity = Vector3.MoveTowards(horizontalFinalVelocity, Vector3.zero, controllerConfig._groundDeceleration* Time.deltaTime); //Vector3.MoveTowards(a, b, maxDistanceDelta)
+        Vector3 deceleratedVelocity = Vector3.MoveTowards(horizontalFinalVelocity, Vector3.zero, controllerConfig.groundDeceleration* Time.deltaTime); //Vector3.MoveTowards(a, b, maxDistanceDelta)
 
         //DECELERATION
        if (targetDirection == Vector3.zero)// if input is realized return;
@@ -98,8 +98,8 @@ public class PlayerController : MonoBehaviour
 
     private void Rotate()
     {
-        transform.Rotate(Vector3.up, _mouseRotation.x * controllerConfig._mouseSensitivity);
-        lookTarget.Rotate(Vector3.right, -_mouseRotation.y * controllerConfig._mouseSensitivity);
+        transform.Rotate(Vector3.up, _mouseRotation.x * controllerConfig.mouseSensitivity);
+        lookTarget.Rotate(Vector3.right, -_mouseRotation.y * controllerConfig.mouseSensitivity);
     }
     
     private void ClampRotation()
@@ -129,7 +129,7 @@ public class PlayerController : MonoBehaviour
         
         if (IsGrounded())
         {
-            _currentVelocity.y = controllerConfig._jumpHeight;
+            _currentVelocity.y = controllerConfig.jumpHeight;
             _playerAnimator.SetTrigger(_jumpHash);
         }
         
@@ -145,7 +145,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!IsGrounded()) //if the player is not touching the floor do this...
         {
-            _currentVelocity.y += Physics.gravity.y * controllerConfig._gravity *Time.deltaTime;
+            _currentVelocity.y += Physics.gravity.y * controllerConfig.gravity *Time.deltaTime;
         }
         _characterController.Move(_currentVelocity * Time.deltaTime);
         
@@ -160,8 +160,8 @@ public class PlayerController : MonoBehaviour
     private void AttempInteract()
     {
         Vector3 origin = lookTarget.position;
-        Debug.DrawRay(origin, lookTarget.forward * controllerConfig._interactDistance, Color.red);
-        if (Physics.Raycast(origin, lookTarget.forward, out RaycastHit hit, controllerConfig._interactDistance,
+        Debug.DrawRay(origin, lookTarget.forward * controllerConfig.interactDistance, Color.red);
+        if (Physics.Raycast(origin, lookTarget.forward, out RaycastHit hit, controllerConfig.interactDistance,
                 interactionLayer))
         {
            IInteractable interactable = hit.collider.gameObject.GetComponent<IInteractable>();
