@@ -15,9 +15,9 @@ MonoBehaviour:
   <MovementSpeed>k__BackingField: 10
   _groundAcceleration: 10
   _groundDeceleration: 10
-  _jumpHeight: 15
-  _gravity: 2
+  _jumpHeight: 10
+  _gravity: 9.81
   <AirAcceleration>k__BackingField: 5
   <CameraBounds>k__BackingField: 30
-  _mouseSensitivity: 0.15
-  _interactDistance: 5
+  _mouseSensitivity: 100
+  _interactDistance: 1000

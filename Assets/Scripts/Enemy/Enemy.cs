@@ -7,7 +7,6 @@ using UnityEngine.AI;
 
 public enum EnemyAIState
 {
-   Idle,
    Patrol,
    Chase,
    Attack
@@ -15,7 +14,7 @@ public enum EnemyAIState
 public class Enemy : MonoBehaviour
 {
    [Header("Movement")]
-   [SerializeField] private EnemyAIState currentState = EnemyAIState.Idle;
+   [SerializeField] private EnemyAIState currentState = EnemyAIState.Patrol;
    [SerializeField] private float enemiesHealth = 20;
    [SerializeField] private float detectionDistance = 5f;
    [SerializeField] private float chaseSpeed = 5f;
@@ -50,9 +49,6 @@ public class Enemy : MonoBehaviour
    { 
       switch (currentState)
       {
-         case EnemyAIState.Idle:
-            IdleBehaviour();
-            break;
          case EnemyAIState.Patrol:
             PatrolBehaviour();
             break;
@@ -64,12 +60,7 @@ public class Enemy : MonoBehaviour
             break;
       }
    }
-
-   void IdleBehaviour()
-   {
-      Debug.Log(gameObject.name + " is idle");
-   }
-
+   
    void PatrolBehaviour()
    {
       Debug.Log(gameObject.name + " is patrol");
@@ -81,7 +72,7 @@ public class Enemy : MonoBehaviour
       Transform targetWaypoint = waypoints[currentWaypointIndex];
       _navMeshAgent.SetDestination(targetWaypoint.position);
 
-      if (!_navMeshAgent.pathPending && _navMeshAgent.remainingDistance < 0.3f)
+      if (!_navMeshAgent.pathPending && _navMeshAgent.remainingDistance < 0.3f) //calculates when the enemy arrive the point go to the next one
       {
          currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
       }
@@ -146,7 +137,7 @@ public class Enemy : MonoBehaviour
             _enemyAnimator.SetTrigger(_attackHash);
             if (playerHealth != null)
             {
-               playerHealth.TakeDamage(damage * Time.deltaTime);
+               playerHealth.TakeDamage(damage);
               
             }
             
