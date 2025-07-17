@@ -32,6 +32,9 @@ public class PlayerHealth : MonoBehaviour
     {
         Debug.Log("Player died!");
         //Death animation sequence can be play here 
+        
+        //deactivate the player
+        //set new posiiton to the checkpoint
+        //reactivate player again
     }
-   
 }

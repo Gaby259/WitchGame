@@ -26,7 +26,7 @@ public class Enemy : MonoBehaviour
    
    
    [Header("Target")]
-   [SerializeField] GameObject currentTarget;
+   private GameObject currentTarget;
    
    [Header("Patrol")]
    [SerializeField] private Transform[] waypoints;
@@ -42,6 +42,7 @@ public class Enemy : MonoBehaviour
    private void Start()
    {
       _navMeshAgent = GetComponent<NavMeshAgent>();
+      currentTarget = GameManager.playerInstance;
       _navMeshAgent.SetDestination(currentTarget.transform.position);
    }
 
