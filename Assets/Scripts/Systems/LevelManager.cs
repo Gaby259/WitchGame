@@ -5,7 +5,7 @@ public class LevelManager : Singleton<LevelManager>
 {
     [SerializeField] private GameObject _zombie;
     [SerializeField] private GameObject _troll;
-    private int _killedEnemies = 0;
+    //private int _killedEnemies = 0;
     private int _spawnedEnemies;
     [SerializeField] private int _totalEnemies;
 

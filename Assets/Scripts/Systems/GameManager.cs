@@ -4,6 +4,7 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
     public static GameObject playerInstance;
+    public static GameObject cameraInstance;
     [SerializeField] private GameObject _player;
 
     public override void Awake()

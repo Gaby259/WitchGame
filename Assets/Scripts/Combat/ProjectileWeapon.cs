@@ -8,12 +8,14 @@ public class ProjectileWeapon : Weapon
     {
         if (!CanFire())
         {
-    //        Debug.Log("Cant Fire");
             return;
         }
-//        Debug.Log("Firing");
         base.Fire(); // "base" go to the parent and call this particular function 
-        var bullet = Instantiate(_projectile, firePoint.transform.position, firePoint.transform.rotation);
+        
+        Ray ray= Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        Vector3 direction = ray.direction;
+        var bullet = Instantiate(_projectile, firePoint.transform.position,Quaternion.LookRotation(direction));
+        
     }
 
 } 

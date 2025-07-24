@@ -26,7 +26,7 @@ public class Enemy : MonoBehaviour
    
    
    [Header("Target")]
-   private GameObject currentTarget;
+   private GameObject _currentTarget = GameManager.playerInstance;
    
    [Header("Patrol")]
    [SerializeField] private Transform[] waypoints;
@@ -42,8 +42,8 @@ public class Enemy : MonoBehaviour
    private void Start()
    {
       _navMeshAgent = GetComponent<NavMeshAgent>();
-      currentTarget = GameManager.playerInstance;
-      _navMeshAgent.SetDestination(currentTarget.transform.position);
+      _currentTarget = GameManager.playerInstance;
+      _navMeshAgent.SetDestination(_currentTarget.transform.position);
    }
 
    private void Update()
@@ -64,7 +64,6 @@ public class Enemy : MonoBehaviour
    
    void PatrolBehaviour()
    {
-      Debug.Log(gameObject.name + " is patrol");
       if (waypoints.Length == 0)
       {
          return;
@@ -113,8 +112,8 @@ public class Enemy : MonoBehaviour
       _navMeshAgent.speed = chaseSpeed;
       _enemyAnimator.SetTrigger(_chaseHash);
       Debug.Log(gameObject.name + " is chase");
-    float currentDistance = Vector3.Distance(transform.position, currentTarget.transform.position);
-    _navMeshAgent.SetDestination(currentTarget.transform.position);
+      float currentDistance = Vector3.Distance(transform.position, _currentTarget.transform.position);
+      _navMeshAgent.SetDestination(_currentTarget.transform.position);
     
     if (currentDistance < detectionDistance)
     {

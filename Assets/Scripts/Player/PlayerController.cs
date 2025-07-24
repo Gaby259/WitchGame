@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEngine;
 
@@ -53,7 +54,15 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
-    
+
+    private void OnDestroy()
+    {
+        GameData gameData = new GameData();
+        gameData.PlayerPosition = transform.position;
+        SaveManager.Instance.SaveGame(gameData);
+        Debug.Log("player transform saved");
+    }
+
     void Update()
     {
       Movement();
