@@ -2,7 +2,7 @@ using UnityEngine;
 [System.Serializable]
 public class GameData
 {
-    public int Score;
+    public int PlayerScore;
     public Vector3 PlayerPosition;
 }
 
@@ -10,7 +10,7 @@ public class SaveManager : Singleton<SaveManager>
 {
     private string _savePath;
 
-    private void Awake()
+   void Start()
     {
         _savePath = Application.persistentDataPath + "/gamedata.json";
     }
@@ -18,6 +18,7 @@ public class SaveManager : Singleton<SaveManager>
     public void SaveGame(GameData data)
     {
         string json = JsonUtility.ToJson(data, true);
+        Debug.Log(json);
         System.IO.File.WriteAllText(_savePath, json);
     }
 

@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using UnityEngine;
+using Random = System.Random;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
@@ -53,13 +54,19 @@ public class PlayerController : MonoBehaviour
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        GameData playerData = SaveManager.Instance.LoadGame();
+        if (playerData != null)
+        {
+            transform.position = playerData.PlayerPosition;
+        }
     }
 
     private void OnDestroy()
     {
-        GameData gameData = new GameData();
-        gameData.PlayerPosition = transform.position;
-        SaveManager.Instance.SaveGame(gameData);
+        GameData playerData = new GameData();
+        playerData.PlayerPosition = transform.position;
+        playerData.PlayerScore = new Random().Next(0, 10);
+        SaveManager.Instance.SaveGame(playerData);
         Debug.Log("player transform saved");
     }
 
