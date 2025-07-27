@@ -5,8 +5,9 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private float maxHealth = 100;
     [SerializeField] private Animator _playerAnimator;
     private int _takingDamageHash = Animator.StringToHash("IsTakingDamage");
-    private float currentHealth;
     
+    //Send info to player data
+    private PlayerData _playerData;
 
     private void Awake()
     {
@@ -15,14 +16,18 @@ public class PlayerHealth : MonoBehaviour
 
     private void Start()
     {
-        currentHealth = maxHealth;
+        _playerData = GameManager.Instance.playerData;
+        if (_playerData.currentHealth <= 0)
+        {
+            _playerData.currentHealth = maxHealth;
+        }
     }
 
     public void TakeDamage(float amount)
     {
-        currentHealth -= amount;
+        _playerData.currentHealth -= amount;
         _playerAnimator.SetTrigger(_takingDamageHash);
-        if (currentHealth <= 0)
+        if (_playerData.currentHealth <= 0)
         {
             Die();
         }
@@ -34,7 +39,7 @@ public class PlayerHealth : MonoBehaviour
         //Death animation sequence can be play here 
         
         //deactivate the player
-        //set new posiiton to the checkpoint
+        //set new positon to the checkpoint
         //reactivate player again
     }
 }

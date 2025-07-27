@@ -5,7 +5,7 @@ public class DamageZone : MonoBehaviour
     [SerializeField] private int damagePerSecond = 10;
     
     
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         //Debug.Log(other.name);
         if (other.CompareTag("Player"))
@@ -17,14 +17,7 @@ public class DamageZone : MonoBehaviour
                playerHealth.TakeDamage(damagePerSecond * Time.deltaTime);
             }
         }
-        /*if (other.CompareTag("Player"))
-        {
-            Debug.Log("Player has enter the damage zone");
-            if (playerHealth != null)
-            {
-                playerHealth.TakeDamage(damagePerSecond * Time.deltaTime);
-            }
-        }*/
+       
     }
    
 }
