@@ -13,7 +13,7 @@ public class MovingPlatform : MonoBehaviour
 
   private void Start()
   {
-     _player =GameManager.playerInstance.GetComponent<PlayerController>();
+   //  _player =GameManager.playerInstance.GetComponent<PlayerController>();
      _collider = GameManager.playerInstance.GetComponent<SphereCollider>();
      
   }
@@ -33,12 +33,13 @@ public class MovingPlatform : MonoBehaviour
               _currentWaypointIndex = 0;
           }
       }
-      transform.position = Vector3.MoveTowards(transform.position, waypoints[_currentWaypointIndex].position, Time.deltaTime * platformSpeed);
+      transform.position = Vector3.MoveTowards(transform.position, 
+          waypoints[_currentWaypointIndex].position, Time.deltaTime * platformSpeed);
   }
 
   private void OnCollisionEnter(Collision collision )
   {
-      if (collision.gameObject.CompareTag("Player")&& _collider.enabled)
+      if (collision.gameObject.CompareTag("Player"))
       {
           collision.gameObject.transform.SetParent(transform); //Move the player with the platform
           _player.enabled = false;
