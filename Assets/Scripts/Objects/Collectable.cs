@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -10,6 +11,9 @@ public class Collectable : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private float movementAmplitude = 0.5f;
     private Vector3 _startPosition;
+    
+    [Header ("Victory Collectable")]
+    [SerializeField] private bool isVictoryCollectable = false;
 
     private void Start()
     {
@@ -27,9 +31,14 @@ public class Collectable : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("Collected");
+            if (isVictoryCollectable == true)
+            {
+                GameManager.Instance.PlayerWin();
+                
+            }
             Destroy(this.gameObject);
-     
         }
+        
     }
     
 }

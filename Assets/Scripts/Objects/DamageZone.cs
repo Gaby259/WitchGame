@@ -4,7 +4,6 @@ public class DamageZone : MonoBehaviour
 {
     [SerializeField] private int damagePerSecond = 10;
     
-    
     private void OnTriggerStay(Collider other)
     {
         //Debug.Log(other.name);

@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class LevelManager : Singleton<LevelManager>
@@ -10,7 +11,7 @@ public class LevelManager : Singleton<LevelManager>
     [SerializeField] private int _totalEnemies;
 
     [SerializeField] private Transform[] _spawnPoints;
-
+    private IState _currentState;
     //To-Do
     //Fix waypoint null references on enemies
     
@@ -37,4 +38,16 @@ public class LevelManager : Singleton<LevelManager>
             }
         }
     }
+    public void ChangeState(IState newState)
+    {
+       // _currentState?.Exit(); // Safely call Exit on the current state if it exists
+     //   _currentState = newState;
+      //  _currentState.Enter();
+    }
+
+    private void Update()
+    {
+       // _currentState?.Update();
+    }
+    
 }

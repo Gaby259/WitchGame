@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Data.Common;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -23,6 +24,9 @@ public class Enemy : MonoBehaviour
    [Header("Attack")] 
    [SerializeField] private float damage = 5;
    [SerializeField] private float attackRange =1.5f;
+   [SerializeField] private float _attackCooldown = 2f;
+   private bool _attackOnCooldown = false;
+   private bool _canAttack = false;
    
    
    [Header("Target")]
@@ -44,6 +48,7 @@ public class Enemy : MonoBehaviour
       _navMeshAgent = GetComponent<NavMeshAgent>();
       _currentTarget = GameManager.playerInstance;
       _navMeshAgent.SetDestination(_currentTarget.transform.position);
+      _canAttack = true; 
    }
 
    private void Update()
@@ -111,7 +116,6 @@ public class Enemy : MonoBehaviour
    {
       _navMeshAgent.speed = chaseSpeed;
       _enemyAnimator.SetTrigger(_chaseHash);
-      Debug.Log(gameObject.name + " is chase");
       float currentDistance = Vector3.Distance(transform.position, _currentTarget.transform.position);
       _navMeshAgent.SetDestination(_currentTarget.transform.position);
     
@@ -121,10 +125,9 @@ public class Enemy : MonoBehaviour
     }
    }
 
-   void AttackBehavior()
+   private void AttackBehavior()
    {
       bool playerInRange = false;
-      Debug.Log(gameObject.name + "is Attacking");
       Collider[] hits = Physics.OverlapSphere(transform.position, attackRange);
 
       foreach (var hit in hits) // Loop through each collider detected
@@ -132,14 +135,19 @@ public class Enemy : MonoBehaviour
          if (hit.CompareTag("Player"))
          {
             playerInRange = true;
-            Debug.Log("Player has enter the damage zone");
-            PlayerHealth playerHealth = hit.GetComponent<PlayerHealth>();
-            _enemyAnimator.SetTrigger(_attackHash);
-            if (playerHealth != null)
+            
+            if (_canAttack)
             {
-               playerHealth.TakeDamage(damage);
-              
+               PlayerHealth playerHealth = hit.GetComponent<PlayerHealth>();
+               _enemyAnimator.SetTrigger(_attackHash);
+               if (playerHealth != null)
+               {
+                  playerHealth.TakeDamage(damage);
+               }
+               Debug.Log("AttackCooldown");
+               StartCoroutine(AttackCooldown());
             }
+            
             
          }
       }
@@ -148,6 +156,14 @@ public class Enemy : MonoBehaviour
       {
          currentState = EnemyAIState.Chase;
       }
+   }
+
+   IEnumerator AttackCooldown()
+   {
+      Debug.Log("attack cooldown" + _attackCooldown);
+      _canAttack = false;
+      yield return new WaitForSeconds(_attackCooldown);
+      _canAttack = true;
    }
 
    public virtual void TakeDamage(float damageAmount) //Is virtual so enemies subclasses can override it 

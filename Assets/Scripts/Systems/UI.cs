@@ -1,16 +1,20 @@
+using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private Slider healthBar;
+
+    private void Start()
     {
-        
+        PlayerHealth player = FindAnyObjectByType<PlayerHealth>();
+        UpdateHealthUI(player.GetHealthPercentage());
+        player.OnPlayerTakeDamage.AddListener(UpdateHealthUI);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void UpdateHealthUI(float percentage)
     {
-        
+        healthBar.value = percentage;
     }
 }
