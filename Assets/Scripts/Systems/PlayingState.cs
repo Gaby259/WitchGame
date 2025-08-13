@@ -1,8 +1,11 @@
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-
-public class Playinpublic: IState
+public interface IState
+{
+    void Enter();
+    void Update();
+    void Exit();
+}
+public class PlayingState: IState
 {
     public void Enter()
     {
@@ -18,5 +21,25 @@ public class Playinpublic: IState
     public void Exit()
     {
         // Disable player input, etc.
+    }
+    
+}
+public class PauseState : IState
+{
+    public void Enter()
+    {
+        Time.timeScale = 0;
+        Debug.Log("Game Paused");
+    }
+
+    public void Update()
+    {
+        // Lógica del estado "Pausa"
+    }
+
+    public void Exit()
+    {
+        Time.timeScale = 1;
+        Debug.Log("Resuming Game");
     }
 }
