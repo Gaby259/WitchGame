@@ -40,7 +40,7 @@ public class GameManager : Singleton<GameManager>
     
     public void ChangeState(IState newState)
     {
-        _currentState?.Exit(); // Sale del estado actual si existe
+        _currentState?.Exit();
         _currentState = newState;
         _currentState.Enter();
     }

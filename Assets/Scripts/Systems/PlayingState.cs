@@ -9,7 +9,6 @@ public class PlayingState: IState
 {
     public void Enter()
     {
-        // Enable player input, start enemy spawning, etc.
         Time.timeScale = 1;
     }
 
@@ -41,5 +40,22 @@ public class PauseState : IState
     {
         Time.timeScale = 1;
         Debug.Log("Resuming Game");
+    }
+}
+public class WinState : IState
+{
+    public void Enter()
+    {
+        
+    }
+
+    public void Update()
+    {
+        
+    }
+
+    public void Exit()
+    {
+        
     }
 }

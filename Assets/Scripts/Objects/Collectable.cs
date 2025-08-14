@@ -12,6 +12,9 @@ public class Collectable : MonoBehaviour
     [SerializeField] private float movementAmplitude = 0.5f;
     private Vector3 _startPosition;
     
+    [Header("Value")]
+    [SerializeField] private int scoreValue = 10;
+    
     [Header ("Victory Collectable")]
     [SerializeField] private bool isVictoryCollectable = false;
 
@@ -31,12 +34,14 @@ public class Collectable : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("Collected");
+            UI.Instance.AddScore(scoreValue);
             if (isVictoryCollectable == true)
             {
                 GameManager.Instance.PlayerWin();
                 
             }
-            Destroy(this.gameObject);
+            transform.DOScale(Vector3.zero, 0.3f)
+                .OnComplete(() => Destroy(gameObject));
         }
         
     }
