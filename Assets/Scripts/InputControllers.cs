@@ -35,7 +35,7 @@ public class InputController : MonoBehaviour
         _gameControls.Player.Attack.canceled += OnAttackCancelled;
         _gameControls.Player.Interact.performed += OnInteractPerformed;
         _gameControls.Player.Shield.performed += OnShieldPerformed;
-        _gameControls.Player.Shield.performed += OnShieldCancelled;
+        _gameControls.Player.Shield.canceled += OnShieldCancelled;
     }
 
     private void OnShieldPerformed(InputAction.CallbackContext context)

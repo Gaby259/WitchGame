@@ -9,6 +9,7 @@ public class PlayerHealth : MonoBehaviour
     private float currentHealth;
     public UnityEvent<float> OnPlayerTakeDamage;
     private int _takingDamageHash = Animator.StringToHash("IsTakingDamage");
+    public bool isShieldActive = false;
 
     private void Awake()
     {
@@ -22,6 +23,11 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(float damageAmount)
     {
+        if (isShieldActive)
+        {
+            Debug.Log("Escudo activo: daño bloqueado.");
+            return;
+        }
         currentHealth = Mathf.Clamp(currentHealth - damageAmount, 0, maxHealth);//health can't go bellow 0 
         _playerAnimator.SetTrigger(_takingDamageHash);
         OnPlayerTakeDamage.Invoke(GetHealthPercentage());

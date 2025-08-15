@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
     
     [Header("Interaction")]
     [SerializeField] private LayerMask interactionLayer;
+    private bool _canMove = true;
 
    void Awake()
     {
@@ -72,13 +73,26 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-      Movement();
-      Jump();
-      Rotate();
-      ClampRotation();
+        
+        if (_canMove)
+        {
+            Movement();
+            Jump();
+            Rotate();
+        }
+        ClampRotation();
      
     }
-    
+
+    public void SetMovementEnabled(bool enabled)//is created for the hat to control the player's movement
+    {
+        _canMove = enabled;
+        if (!enabled)
+        {
+            _currentVelocity = Vector3.zero;
+            _playerAnimator.SetFloat(_moveSpeedHash, 0f);
+        }
+    }
 
     private void MovementInput (Vector2 movement)
     {
