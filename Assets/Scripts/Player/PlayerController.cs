@@ -46,7 +46,6 @@ public class PlayerController : MonoBehaviour
             _inputController.JumpEvent += JumpInput;
             _inputController.MouseLookEvent += RotationInput;
             _inputController.InteractEvent += AttempInteract;
-            _inputController.ShieldEvent += AttempShield;
         }
     }
     
@@ -184,14 +183,6 @@ public class PlayerController : MonoBehaviour
            }
           
         }
-    }
-
-    private void AttempShield()
-    {
-        //check if hat has being equipped 
-        //activate shield 
-        //disable movement when is activated
-        //enable movement when is released 
     }
     
 }
