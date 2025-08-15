@@ -26,7 +26,7 @@ public class PlayerHealth : MonoBehaviour
         _playerAnimator.SetTrigger(_takingDamageHash);
         OnPlayerTakeDamage.Invoke(GetHealthPercentage());
         //play sound of taking damage 
-        Debug.Log("current health" + currentHealth);
+      
         if (currentHealth <= 0)
         {
             Die();

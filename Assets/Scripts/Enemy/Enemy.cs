@@ -168,7 +168,6 @@ public class Enemy : MonoBehaviour
 
    public virtual void TakeDamage(float damageAmount) //Is virtual so enemies subclasses can override it 
    {
-      Debug.Log(gameObject.name + " is " + damageAmount + " damage");
       enemiesHealth -= damageAmount;
       if (enemiesHealth <= 0)
       {

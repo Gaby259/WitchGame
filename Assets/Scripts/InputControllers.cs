@@ -15,6 +15,8 @@ public class InputController : MonoBehaviour
     public event Action AttackEventCancelled;
     
     public event Action InteractEvent;
+    public event Action ShieldEvent;
+    public event Action ShieldEventCancelled;
     private void Awake()
     {
         _gameControls = new GameControls();
@@ -32,8 +34,20 @@ public class InputController : MonoBehaviour
         _gameControls.Player.Attack.performed += OnAttackPerformed;
         _gameControls.Player.Attack.canceled += OnAttackCancelled;
         _gameControls.Player.Interact.performed += OnInteractPerformed;
+        _gameControls.Player.Shield.performed += OnShieldPerformed;
+        _gameControls.Player.Shield.performed += OnShieldCancelled;
     }
 
+    private void OnShieldPerformed(InputAction.CallbackContext context)
+    {
+        ShieldEvent?.Invoke();
+    }
+
+    private void OnShieldCancelled(InputAction.CallbackContext context)
+    {
+       ShieldEventCancelled?.Invoke();
+    }
+    
     private void OnInteractPerformed(InputAction.CallbackContext context)
     {
         InteractEvent?.Invoke();

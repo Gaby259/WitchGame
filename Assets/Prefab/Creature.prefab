@@ -315,8 +315,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 2.2984886
-  m_Center: {x: -0.21459484, y: -1.730206, z: 0}
+  m_Radius: 3.2536871
+  m_Center: {x: -0.21459484, y: -0.7750075, z: 0}
 --- !u!114 &5334958257972402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,7 +331,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 0
   enemiesHealth: 20
-  detectionDistance: 40
+  detectionDistance: 25
   chaseSpeed: 5
   patrolSpeed: 5
   damage: 1
@@ -345,7 +345,7 @@ MonoBehaviour:
   aimHeight: 1.2
   burstCount: 1
   burstInterval: 0.12
-  lastShot: 1
+  lastShot: 2
   timeForShoot: 1
 --- !u!1 &6869507933700138894
 GameObject:
@@ -458,7 +458,7 @@ Transform:
   m_GameObject: {fileID: 9192448625004054764}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.071, y: -0.139, z: 2.839}
+  m_LocalPosition: {x: -0.071, y: 0.04, z: 3.86}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
