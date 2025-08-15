@@ -331,19 +331,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 0
   enemiesHealth: 20
-  detectionDistance: 5
+  detectionDistance: 40
   chaseSpeed: 5
   patrolSpeed: 5
-  damage: 5
+  damage: 1
   attackRange: 1.5
   _attackCooldown: 2
   waypoints: []
   _enemyAnimator: {fileID: 0}
   shootingPoint: {fileID: 4984333495255754060}
   bulletPrefab: {fileID: 2077828365540776681, guid: cacdc8ed24567914ab2d34abf4c63c4b, type: 3}
-  fireRate: 10
   turnSpeed: 10
   aimHeight: 1.2
+  burstCount: 1
+  burstInterval: 0.12
+  lastShot: 1
+  timeForShoot: 1
 --- !u!1 &6869507933700138894
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1677899290866078515}
   - component: {fileID: 8220118558910951053}
   - component: {fileID: 2605680248233990556}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Collectable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,6 +103,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: {x: 0, y: 100, z: 0}
   movementAmplitude: 2
+  scoreValue: 10
+  isVictoryCollectable: 0
 --- !u!135 &8220118558910951053
 SphereCollider:
   m_ObjectHideFlags: 0
