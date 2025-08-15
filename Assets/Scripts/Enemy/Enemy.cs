@@ -1,9 +1,5 @@
-using System;
 using System.Collections;
-using System.Data.Common;
-using Unity.Cinemachine;
 using UnityEngine;
-using UnityEngine.Accessibility;
 using UnityEngine.AI;
 
 public enum EnemyAIState
@@ -16,28 +12,28 @@ public class Enemy : MonoBehaviour
 {
    [Header("Movement")]
    [SerializeField] private EnemyAIState currentState = EnemyAIState.Patrol;
-   [SerializeField] private float enemiesHealth = 20;
-   [SerializeField] private float detectionDistance = 5f;
+   [SerializeField] protected float enemiesHealth = 20;
+   [SerializeField] protected float detectionDistance = 5f;
    [SerializeField] private float chaseSpeed = 5f;
    [SerializeField] private float patrolSpeed = 5f;
 
    [Header("Attack")] 
-   [SerializeField] private float damage = 5;
-   [SerializeField] private float attackRange =1.5f;
-   [SerializeField] private float _attackCooldown = 2f;
-   private bool _attackOnCooldown = false;
+   [SerializeField] protected float damage = 5;
+   [SerializeField] protected float attackRange =1.5f;
+   [SerializeField] protected float _attackCooldown = 2f;
+   protected bool _attackOnCooldown = false;
    private bool _canAttack = false;
    
    
    [Header("Target")]
-   private GameObject _currentTarget = GameManager.playerInstance;
+   protected GameObject _currentTarget = GameManager.playerInstance;
    
    [Header("Patrol")]
    [SerializeField] private Transform[] waypoints;
    private int currentWaypointIndex = 0;
    
    [Header("NavMesh")]
-   NavMeshAgent _navMeshAgent;
+   protected NavMeshAgent _navMeshAgent;
 
    [Header("Animation")]
    [SerializeField] private Animator _enemyAnimator;
@@ -47,7 +43,11 @@ public class Enemy : MonoBehaviour
    {
       _navMeshAgent = GetComponent<NavMeshAgent>();
       _currentTarget = GameManager.playerInstance;
-      _navMeshAgent.SetDestination(_currentTarget.transform.position);
+      
+      if (_navMeshAgent != null)//that way the child if it doesn't move will not have problem spawning without navmesh
+      {
+         _navMeshAgent.SetDestination(_currentTarget.transform.position);
+      }     
       _canAttack = true; 
    }
 
@@ -151,7 +151,7 @@ public class Enemy : MonoBehaviour
             
          }
       }
-      //If player is out of range change to chase patrol mode
+      
       if (!playerInRange)
       {
          currentState = EnemyAIState.Chase;

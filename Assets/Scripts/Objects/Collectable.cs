@@ -34,12 +34,12 @@ public class Collectable : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("Collected");
-            UI.Instance.AddScore(scoreValue);
             if (isVictoryCollectable == true)
             {
                 GameManager.Instance.PlayerWin();
                 
             }
+            UI.Instance.AddScore(scoreValue);
             transform.DOScale(Vector3.zero, 0.3f)
                 .OnComplete(() => Destroy(gameObject));
         }

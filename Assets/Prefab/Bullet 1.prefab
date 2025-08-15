@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -6317709129441563317}
   - component: {fileID: 9099913868616233741}
   m_Layer: 6
-  m_Name: Bullet
+  m_Name: Bullet 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5934ef6d8cdcca446b3bc6ccc639dd2a, type: 2}
+  - {fileID: 2100000, guid: 81f451a4446b48b439a780beabbedbbd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -124,7 +124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectileSpeed: 30
   projectileLifeTime: 2
-  impactParticles: {fileID: 5229170964272380652, guid: 9a8d865fe60bb1f43a127b5c6e906e05, type: 3}
+  impactParticles: {fileID: 5229170964272380652, guid: 504fad710575bda40af5e2da193d1517, type: 3}
   damage: 5
 --- !u!54 &9099913868616233741
 Rigidbody:

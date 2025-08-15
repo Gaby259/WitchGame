@@ -14,7 +14,6 @@ public class ProjectileBullet : Projectile
     {
       enemy.TakeDamage(damage);
     }
-    //if hits player ignore
 
     if (impactParticles != null)
     {
