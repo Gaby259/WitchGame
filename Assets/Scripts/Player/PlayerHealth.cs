@@ -25,7 +25,6 @@ public class PlayerHealth : MonoBehaviour
     {
         if (isShieldActive)
         {
-            Debug.Log("Escudo activo: daño bloqueado.");
             return;
         }
         currentHealth = Mathf.Clamp(currentHealth - damageAmount, 0, maxHealth);//health can't go bellow 0 
@@ -43,11 +42,7 @@ public class PlayerHealth : MonoBehaviour
     {
         Debug.Log("Player died!");
         GameManager.Instance.LoseGame();
-        //Death animation sequence can be play here 
-        
-        //deactivate the player
-        //set new positon to the checkpoint
-        //reactivate player again
+       
     }
 
     public float GetHealthPercentage()

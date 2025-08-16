@@ -7,7 +7,8 @@ public enum GameState
     MainMenu,
     Playing,
     Win,
-    Lose
+    Lose,
+    Credits
 }
 
 public class GameManager : Singleton<GameManager>
@@ -39,17 +40,14 @@ public class GameManager : Singleton<GameManager>
         switch(newState)
         {
             case GameState.MainMenu:
-               
                 SceneManager.LoadScene("MainMenu");
                 break;
             case GameState.Playing:
                 SceneManager.LoadScene("FirstLevel");
                 break;
-            case GameState.Win:
-                SceneManager.LoadScene("WinScreen");
-                break;
             case GameState.Lose:
-                SceneManager.LoadScene("LoseScreen");
+                Debug.Log("Game Over");
+                SceneManager.LoadScene("MainMenu");
                 break;
         }
     }
@@ -60,6 +58,7 @@ public class GameManager : Singleton<GameManager>
     public void LoadMenu() => UpdateGameState(GameState.MainMenu);
     public void WinGame() => UpdateGameState(GameState.Win);
     public void LoseGame() => UpdateGameState(GameState.Lose);
+    public void CreditsGame() => UpdateGameState(GameState.Credits);
     
     public void ExitGame() => Application.Quit();
 }

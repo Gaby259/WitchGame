@@ -45,7 +45,7 @@ public class Hat : MonoBehaviour, IInteractable
         _playerController = FindObjectOfType<PlayerController>();
         _playerHealth = _playerController.GetComponent<PlayerHealth>();
         _inputController = _playerController.GetComponent<InputController>();
-        
+        SoundManager.Play("Hat");
         _equippedHat = Instantiate(hatPrefab, playerHead.position, playerHead.rotation, playerHead);
         _equippedHat.transform.localScale = Vector3.one;
         //use the input system (press Q) for activate the shield  
@@ -62,6 +62,7 @@ public class Hat : MonoBehaviour, IInteractable
 
         if (shieldEffectPrefab != null && _shieldEffectInstance == null)
         {
+            SoundManager.Play("ShieldActivate");
             _shieldEffectInstance = Instantiate(shieldEffectPrefab, _playerController.transform);
             _shieldEffectInstance.transform.localPosition = Vector3.zero;
         }
@@ -74,6 +75,7 @@ public class Hat : MonoBehaviour, IInteractable
 
         if (_shieldEffectInstance != null)
         {
+            SoundManager.Play("ShieldDeactivate");
             Destroy(_shieldEffectInstance);
             _shieldEffectInstance = null;
         }

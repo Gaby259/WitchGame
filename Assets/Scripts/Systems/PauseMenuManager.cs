@@ -34,4 +34,6 @@ public class PauseController : MonoBehaviour
         pauseMenuPanel.SetActive(false);
         OnPauseChanged?.Invoke(false);
     }
+    public void MainMenuButton() => GameManager.Instance.LoadMenu();
+    public void ExitButton() => GameManager.Instance.ExitGame();
 }

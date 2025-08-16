@@ -5,6 +5,7 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] private GameObject mainMenuPanel;
     [SerializeField] private GameObject winPanel;
     [SerializeField] private GameObject losePanel;
+    [SerializeField] private GameObject creditsPanel;
     private void OnEnable()
     {
         GameManager.Instance.OnGameStateChanged += HandleGameStateChanged;
@@ -16,25 +17,31 @@ public class GameUIManager : MonoBehaviour
 
     private void HandleGameStateChanged(GameState state)
     {
-        //Show the panels for each state 
-        if (mainMenuPanel != null)
-        {
-            mainMenuPanel.SetActive(state == GameState.MainMenu);
-        }
-
-        if (winPanel != null)
-        {
-            winPanel.SetActive(state == GameState.Win);
-        }
-
-        if (losePanel != null)
-        {
-            losePanel.SetActive(state == GameState.Lose);
-        }
         
+        mainMenuPanel.SetActive(false);
+        winPanel.SetActive(false);
+        losePanel.SetActive(false);
+        creditsPanel.SetActive(false);
+
+        switch (state)
+        {
+            case GameState.MainMenu:
+                mainMenuPanel.SetActive(true);
+                break;
+            case GameState.Win:
+                winPanel.SetActive(true);
+                break;
+            case GameState.Lose:
+                losePanel.SetActive(true);
+                break;
+            case GameState.Credits:
+                creditsPanel.SetActive(true);
+                break;
+        }
     }
     
     public void PlayButton() => GameManager.Instance.StartGame();
     public void MainMenuButton() => GameManager.Instance.LoadMenu();
     public void ExitButton() => GameManager.Instance.ExitGame();
+    public void CreditsButton() => GameManager.Instance.CreditsGame();
 }

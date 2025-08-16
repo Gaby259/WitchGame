@@ -23,7 +23,7 @@ public class Weapon : MonoBehaviour
             _currentAmmo--;
             animator?.SetTrigger(_fireHash); //this says "If animator exists, call set trigger on it
             //Start Shooting cooldown 
-            //PLay sound effect 
+           SoundManager.Play("Fire");
             
         }
            

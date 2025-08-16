@@ -8,6 +8,7 @@ public class Door : MonoBehaviour, IInteractable
     [SerializeField] private float doorRotation = -90f;
     public void Interact()
     {
+        SoundManager.Play("Door");
        OpenDoor();
     }
 
