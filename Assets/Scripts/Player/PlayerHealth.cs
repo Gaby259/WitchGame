@@ -42,7 +42,7 @@ public class PlayerHealth : MonoBehaviour
     private void Die()
     {
         Debug.Log("Player died!");
-        GameManager.Instance.PlayerLose();
+        GameManager.Instance.LoseGame();
         //Death animation sequence can be play here 
         
         //deactivate the player

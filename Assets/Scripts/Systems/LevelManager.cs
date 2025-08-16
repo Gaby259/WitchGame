@@ -6,14 +6,11 @@ public class LevelManager : Singleton<LevelManager>
 {
     [SerializeField] private GameObject _zombie;
     [SerializeField] private GameObject _troll;
-    //private int _killedEnemies = 0;
     private int _spawnedEnemies;
     [SerializeField] private int _totalEnemies;
 
     [SerializeField] private Transform[] _spawnPoints;
     private IState _currentState;
-    //To-Do
-    //Fix waypoint null references on enemies
     
     private void Start()
     {
@@ -38,16 +35,5 @@ public class LevelManager : Singleton<LevelManager>
             }
         }
     }
-    public void ChangeState(IState newState)
-    {
-       // _currentState?.Exit(); // Safely call Exit on the current state if it exists
-     //   _currentState = newState;
-      //  _currentState.Enter();
-    }
-
-    private void Update()
-    {
-       // _currentState?.Update();
-    }
-    
+   
 }

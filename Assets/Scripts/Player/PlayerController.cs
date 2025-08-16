@@ -90,7 +90,7 @@ public class PlayerController : MonoBehaviour
         if (!enabled)
         {
             _currentVelocity = Vector3.zero;
-            _playerAnimator.SetFloat(_moveSpeedHash, 0f);
+           
         }
     }
 

@@ -1,60 +1,65 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
+public enum GameState
+{
+    MainMenu,
+    Playing,
+    Win,
+    Lose
+}
 
 public class GameManager : Singleton<GameManager>
 {
     public static GameObject playerInstance;
-    public int Score { get; private set; }
+    [SerializeField] private GameObject _player; 
+    public GameState State { get; private set; }
     
-    [SerializeField] private GameObject _player;
-    private IState _currentState;
-    
-    
-    //1. Will call GameOver when player is killed 
-    
-    //2. Should pause game when "ESC" is pressed
-    
-    //3. Should keep track of score for the player
-    private void Start()
-    {
-        ChangeState(new PlayingState());
-    }
-    public override void Awake()
+    public event Action<GameState> OnGameStateChanged; //Is in charge of notify changes of the state 
+
+    private void Awake()
     {
         base.Awake();
         playerInstance = _player;
+        DontDestroyOnLoad(gameObject);
+    }
+
+    private void Start()
+    {
+        UpdateGameState(GameState.MainMenu);
     }
     
-    private void Update()
+    
+    public void UpdateGameState(GameState newState) //Is in charge of changing the state 
     {
-        _currentState?.Update();
-        
-        if (Input.GetKeyDown(KeyCode.Escape))
+        State = newState;
+        OnGameStateChanged?.Invoke(newState);
+
+        switch(newState)
         {
-            if (_currentState is PauseState)
-                ChangeState(new PlayingState());
-            else
-                ChangeState(new PauseState());
+            case GameState.MainMenu:
+               
+                SceneManager.LoadScene("MainMenu");
+                break;
+            case GameState.Playing:
+                SceneManager.LoadScene("FirstLevel");
+                break;
+            case GameState.Win:
+                SceneManager.LoadScene("WinScreen");
+                break;
+            case GameState.Lose:
+                SceneManager.LoadScene("LoseScreen");
+                break;
         }
     }
-    
-    public void ChangeState(IState newState)
-    {
-        _currentState?.Exit();
-        _currentState = newState;
-        _currentState.Enter();
-    }
-    public void PlayerWin()
-    {
-        Debug.Log("Player Win");
-        SceneManager.LoadScene("WinScreen");
-    }
 
-    public void PlayerLose()
-    {
-        Debug.Log("Player Lost");
-        SceneManager.LoadScene("LoseScreen");
-    }
+
+    //Events that triggers the state of the game 
+    public void StartGame() => UpdateGameState(GameState.Playing);
+    public void LoadMenu() => UpdateGameState(GameState.MainMenu);
+    public void WinGame() => UpdateGameState(GameState.Win);
+    public void LoseGame() => UpdateGameState(GameState.Lose);
     
+    public void ExitGame() => Application.Quit();
 }
-

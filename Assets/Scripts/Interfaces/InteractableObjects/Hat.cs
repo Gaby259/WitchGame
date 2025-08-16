@@ -45,12 +45,9 @@ public class Hat : MonoBehaviour, IInteractable
         _playerController = FindObjectOfType<PlayerController>();
         _playerHealth = _playerController.GetComponent<PlayerHealth>();
         _inputController = _playerController.GetComponent<InputController>();
-
-        if (hatPrefab != null && playerHead != null)
-        {
-            _equippedHat = Instantiate(hatPrefab, playerHead.position, playerHead.rotation, playerHead);
-            _equippedHat.transform.localScale = Vector3.one;//Scale the Hat at the wanted sizes 
-        }
+        
+        _equippedHat = Instantiate(hatPrefab, playerHead.position, playerHead.rotation, playerHead);
+        _equippedHat.transform.localScale = Vector3.one;
         //use the input system (press Q) for activate the shield  
         _inputController.ShieldEvent += ActivateShield;
         _inputController.ShieldEventCancelled += DeactivateShield;

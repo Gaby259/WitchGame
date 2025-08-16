@@ -65,10 +65,5 @@ public class ShootingEnemy : Enemy
        Vector3 newLookDirection = Vector3.RotateTowards(transform.forward, lookDirection, enemyRotation, 0f);
        transform.rotation = Quaternion.LookRotation(newLookDirection);//updates the look of the enemy towards the player
    }
-
-   private void OnDrawGizmosSelected()
-   {
-       Gizmos.color = Color.red;
-       Gizmos.DrawWireSphere(transform.position, detectionDistance);
-   }
+   
 }

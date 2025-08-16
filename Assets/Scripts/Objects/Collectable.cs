@@ -36,7 +36,7 @@ public class Collectable : MonoBehaviour
             Debug.Log("Collected");
             if (isVictoryCollectable == true)
             {
-                GameManager.Instance.PlayerWin();
+                GameManager.Instance.WinGame();
                 
             }
             UI.Instance.AddScore(scoreValue);
