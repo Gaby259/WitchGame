@@ -1,13 +1,7 @@
 using UnityEngine;
-[System.Serializable]
-public class GameData
-{
-    public int PlayerScore;
-    public Vector3 PlayerPosition;
-}
-
 public class SaveManager : Singleton<SaveManager>
 {
+    //handles the file of where is going to be saved the info 
     private string _savePath;
 
    void Start()

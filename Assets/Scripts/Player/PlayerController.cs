@@ -49,7 +49,16 @@ public class PlayerController : MonoBehaviour
             _inputController.InteractEvent += AttempInteract;
         }
     }
-    
+    private void OnDisable() // this is for handeling the error MissingReferenceException
+    {
+        if (_inputController != null)
+        {
+            _inputController.MoveEvent -= MovementInput;
+            _inputController.JumpEvent -= JumpInput;
+            _inputController.MouseLookEvent -= RotationInput;
+            _inputController.InteractEvent -= AttempInteract;
+        }
+    }
 
     void Start()
     {
@@ -58,15 +67,16 @@ public class PlayerController : MonoBehaviour
         GameData playerData = SaveManager.Instance.LoadGame();
         if (playerData != null)
         {
-            transform.position = playerData.PlayerPosition;
+            transform.position = playerData._playerPosition;
         }
+        ResetPlayer();
     }
 
     private void OnDestroy()
     {
         GameData playerData = new GameData();
-        playerData.PlayerPosition = transform.position;
-        playerData.PlayerScore = new Random().Next(0, 10);
+        playerData._playerPosition = transform.position;
+        playerData._playerScore = new Random().Next(0, 10);
         SaveManager.Instance.SaveGame(playerData);
         Debug.Log("player transform saved");
     }
@@ -182,7 +192,7 @@ public class PlayerController : MonoBehaviour
         _playerAnimator.SetBool(_isGroundedHash, IsGrounded());
     
     }
-    
+
     private void AttempInteract()
     {
         Vector3 origin = lookTarget.position;
@@ -190,13 +200,35 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(origin, lookTarget.forward, out RaycastHit hit, controllerConfig.interactDistance,
                 interactionLayer))
         {
-           IInteractable interactable = hit.collider.gameObject.GetComponent<IInteractable>();
+            IInteractable interactable = hit.collider.gameObject.GetComponent<IInteractable>();
             if (interactable != null)
-           {
-               interactable.Interact();
-           }
-          
+            {
+                interactable.Interact();
+            }
+
+        }
+
+    }
+
+    public void ResetPlayer()
+    {
+        _canMove = true;
+        _currentVelocity = Vector3.zero;
+
+        //Suscribe again to the input events , this when player press to play again, and it unsubscribe 
+        if (_inputController != null)
+        {
+            _inputController.MoveEvent -= MovementInput;
+            _inputController.MoveEvent += MovementInput;
+
+            _inputController.JumpEvent -= JumpInput;
+            _inputController.JumpEvent += JumpInput;
+
+            _inputController.MouseLookEvent -= RotationInput;
+            _inputController.MouseLookEvent += RotationInput;
+
+            _inputController.InteractEvent -= AttempInteract;
+            _inputController.InteractEvent += AttempInteract;
         }
     }
-    
 }

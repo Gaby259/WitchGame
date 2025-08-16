@@ -175,7 +175,7 @@ public class Enemy : MonoBehaviour
       }
    }
 
-   protected virtual void Die()
+   protected void Die()
    {
       Destroy(gameObject);
       //Enemy is dead , animation sequence can be play

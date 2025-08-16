@@ -31,20 +31,24 @@ public class Collectable : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+
         if (other.CompareTag("Player"))
         {
+            PlayerData playerStats = other.GetComponent<PlayerData>();
+            Debug.Log("Add score to UI");
+            playerStats.AddScore(scoreValue);//now informs the player data that collectable has being taken 
             Debug.Log("Collected");
             if (isVictoryCollectable == true)
             {
                 GameManager.Instance.WinGame();
-                
+
             }
+
             SoundManager.Play("Collectable");
-            UI.Instance.AddScore(scoreValue);
             transform.DOScale(Vector3.zero, 0.3f)
                 .OnComplete(() => Destroy(gameObject));
         }
-        
+
     }
     
 }

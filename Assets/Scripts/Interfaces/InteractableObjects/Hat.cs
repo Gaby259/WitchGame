@@ -54,7 +54,6 @@ public class Hat : MonoBehaviour, IInteractable
 
         Destroy(gameObject);
     }
-
     private void ActivateShield()
     {
         _playerController.SetMovementEnabled(false);
@@ -67,7 +66,6 @@ public class Hat : MonoBehaviour, IInteractable
             _shieldEffectInstance.transform.localPosition = Vector3.zero;
         }
     }
-
     private void DeactivateShield()
     {
         _playerController.SetMovementEnabled(true);
@@ -78,6 +76,14 @@ public class Hat : MonoBehaviour, IInteractable
             SoundManager.Play("ShieldDeactivate");
             Destroy(_shieldEffectInstance);
             _shieldEffectInstance = null;
+        }
+    }
+    private void OnDisable()
+    {
+        if (_inputController != null)
+        {
+            _inputController.ShieldEvent -= ActivateShield;
+            _inputController.ShieldEventCancelled -= DeactivateShield;
         }
     }
 }
